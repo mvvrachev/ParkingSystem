@@ -13,11 +13,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
-    //
+    // Delegate property activity binding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
