@@ -3,14 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23505434782608695" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.1" />
+        <entry key="..\:/Users/Belgian Python/Desktop/Thesis work/ParkingSystem/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
+        <entry key="..\:/Users/Belgian Python/Desktop/Thesis work/ParkingSystem/app/src/main/res/layout/fragment_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Belgian Python/Desktop/Thesis work/ParkingSystem/app/src/main/res/layout/fragment_register.xml" value="0.35260416666666666" />
+        <entry key="..\:/Users/Belgian Python/Desktop/Thesis work/ParkingSystem/app/src/main/res/layout/login_fragment.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/layout/login_fragment.xml" value="0.5" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

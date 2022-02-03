@@ -18,7 +18,7 @@ class LoginFragment : Fragment() {
         fun newInstance() = LoginFragment()
     }
 
-    // kotlin delegated propery
+    // kotlin delegated property
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
@@ -47,10 +47,10 @@ class LoginFragment : Fragment() {
             }
         }
         with(binding) {
-            register.setOnClickListener {
+            registerButton.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
             }
-            login.setOnClickListener {
+            loginButton.setOnClickListener {
                 val email = "q@mailinaor.com"
                 val password = "123456"
                 viewModel.doLogin(email, password)
