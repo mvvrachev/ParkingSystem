@@ -9,41 +9,33 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.parkingsystem.R
 import com.example.parkingsystem.databinding.FragmentLoginBinding
+import com.example.parkingsystem.utils.viewBinding
 
-//class LoginFragment : Fragment(R.layout.login_fragment) {
-class LoginFragment : Fragment() {
-
-    companion object {
-        // TODO check newInstance fragment
-        fun newInstance() = LoginFragment()
-    }
+class LoginFragment : Fragment(R.layout.fragment_login) {
 
     // kotlin delegated property
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
+    private val binding : FragmentLoginBinding by viewBinding(FragmentLoginBinding::bind)
 
     private lateinit var viewModel: LoginViewModel
 
     // TODO: delete this when using binding with delegate
     // https://proandroiddev.com/viewbinding-with-kotlin-property-delegate-c907682e24c9
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
 
     // TODO: show errors with Toast or SnackBar
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // TODO: check why action bar is visible
         requireActivity().actionBar?.hide()
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         // TODO: check viewLifecycleOwner
         viewModel.viewState.observe(viewLifecycleOwner) {
             if (it.isLoading) {
                 // show loading ProgressBar
+                // TODO: check examples for loader
+            }
+
+            if (it.successLogin) {
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
         with(binding) {
@@ -56,10 +48,5 @@ class LoginFragment : Fragment() {
                 viewModel.doLogin(email, password)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
