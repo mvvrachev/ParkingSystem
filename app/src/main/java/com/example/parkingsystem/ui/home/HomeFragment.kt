@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.example.parkingsystem.R
 
 class HomeFragment : Fragment() {
@@ -25,9 +26,12 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         // TODO: Use the ViewModel
         // TODO how to hide back button
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(null)
 
     }
 }

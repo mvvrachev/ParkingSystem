@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 // when adding new items call notifyDataSetChanged()
-class ParingSpacesAdapter : RecyclerView.Adapter<ParingSpacesAdapter.ParkingHolder>() {
+class ParkingSpacesAdapter : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingHolder {
         TODO("Not yet implemented")
