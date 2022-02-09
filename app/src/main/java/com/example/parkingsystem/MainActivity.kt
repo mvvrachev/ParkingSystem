@@ -3,6 +3,7 @@ package com.example.parkingsystem
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
+import android.view.WindowManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -17,10 +18,6 @@ class MainActivity : AppCompatActivity() {
     // Delegate property activity binding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        window?.requestFeature(Window.FEATURE_ACTION_BAR)
-//        window?.requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY)
-//        window?.requestFeature(Window.FEATURE_ACTION_MODE_OVERLAY)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

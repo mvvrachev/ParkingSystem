@@ -11,9 +11,6 @@ import com.example.parkingsystem.R
 
 class HomeFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
 
     private lateinit var viewModel: HomeViewModel
 
@@ -27,11 +24,13 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         // TODO: Use the ViewModel
         // TODO how to hide back button
 
-        (requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(null)
+        //(requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(null)
 
     }
 }

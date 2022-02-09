@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.view.Window.FEATURE_ACTION_BAR_OVERLAY
 import androidx.navigation.fragment.findNavController
@@ -23,12 +24,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     // TODO: delete this when using binding with delegate
     // https://proandroiddev.com/viewbinding-with-kotlin-property-delegate-c907682e24c9
 
-
-
     // TODO: show errors with Toast or SnackBar
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         // TODO: check why action bar is visible - done
         //requireActivity().actionBar?.hide()
 
@@ -57,14 +57,4 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    // TODO: Fix flickering when actionbar hides
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-    }
 }
