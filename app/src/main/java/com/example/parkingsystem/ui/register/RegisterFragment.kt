@@ -1,30 +1,31 @@
 package com.example.parkingsystem.ui.register
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.example.parkingsystem.databinding.FragmentLoginBinding
+import com.example.parkingsystem.R
 import com.example.parkingsystem.databinding.FragmentRegisterBinding
+import com.example.parkingsystem.utils.viewBinding
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment(R.layout.fragment_register) {
 
-    private var _binding: FragmentRegisterBinding? = null
-    private val binding get() = _binding!!
+    private val binding : FragmentRegisterBinding by viewBinding(FragmentRegisterBinding::bind)
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        return binding.root
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
+    }
 }

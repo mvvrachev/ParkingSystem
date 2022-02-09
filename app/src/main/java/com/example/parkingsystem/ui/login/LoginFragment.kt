@@ -3,16 +3,13 @@ package com.example.parkingsystem.ui.login
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.view.Window.FEATURE_ACTION_BAR_OVERLAY
 import androidx.navigation.fragment.findNavController
 import com.example.parkingsystem.R
 import com.example.parkingsystem.databinding.FragmentLoginBinding
 import com.example.parkingsystem.utils.viewBinding
 import androidx.appcompat.app.AppCompatActivity
+import com.example.parkingsystem.utils.LoadingDialog
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
@@ -28,10 +25,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-        // TODO: check why action bar is visible - done
-        //requireActivity().actionBar?.hide()
 
+        // TODO: check why action bar is visible - done
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         // TODO: check viewLifecycleOwner
@@ -39,6 +35,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             if (it.isLoading) {
                 // show loading ProgressBar
                 // TODO: check examples for loader
+                val loader = LoadingDialog(this)
+                loader.startLoading()
             }
 
             if (it.successLogin) {
@@ -55,6 +53,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 viewModel.doLogin(email, password)
             }
         }
+
     }
 
 }

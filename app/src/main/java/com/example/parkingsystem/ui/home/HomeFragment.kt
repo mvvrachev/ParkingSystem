@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.example.parkingsystem.R
+import com.example.parkingsystem.databinding.FragmentHomeBinding
+import com.example.parkingsystem.utils.viewBinding
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
+    private val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
 
     private lateinit var viewModel: HomeViewModel
 
