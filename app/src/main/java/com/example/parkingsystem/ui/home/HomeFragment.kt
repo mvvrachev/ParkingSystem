@@ -41,8 +41,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             startActivity(intent)
         }
 
-
-        //(requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(null)
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
     }
 }
