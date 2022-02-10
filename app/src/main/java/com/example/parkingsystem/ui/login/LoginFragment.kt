@@ -32,14 +32,17 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         // TODO: check viewLifecycleOwner
         viewModel.viewState.observe(viewLifecycleOwner) {
+
+            val loader = LoadingDialog(this)
+
             if (it.isLoading) {
                 // show loading ProgressBar
-                // TODO: check examples for loader
-                val loader = LoadingDialog(this)
+                // TODO: check examples for loader - done
                 loader.startLoading()
             }
-
             if (it.successLogin) {
+                // TODO: Check why app is crashing after calling dismiss()
+                //loader.dismiss()
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
