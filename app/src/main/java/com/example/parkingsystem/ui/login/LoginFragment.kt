@@ -18,9 +18,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private lateinit var viewModel: LoginViewModel
 
-    // TODO: delete this when using binding with delegate
-    // https://proandroiddev.com/viewbinding-with-kotlin-property-delegate-c907682e24c9
-
     // TODO: show errors with Toast or SnackBar
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,6 +36,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 // show loading ProgressBar
                 // TODO: check examples for loader - done
                 loader.startLoading()
+                loader.dismiss()
             }
             if (it.successLogin) {
                 // TODO: Check why app is crashing after calling dismiss()
