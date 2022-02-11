@@ -6,4 +6,6 @@ interface ParkingSystemRepository {
 
     fun doLogin(email: String, password: String, callback: RepositoryResult)
 
+    fun loadParkingSpaces(callback: RepositoryResult)
+
 }

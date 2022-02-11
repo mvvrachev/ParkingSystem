@@ -11,4 +11,8 @@ class ParkingSystemRepositoryImpl(
         // TODO: validation to be done here
         mockDataSource.doLogin(email, password, callback)
     }
+
+    override fun loadParkingSpaces(callback: RepositoryResult) {
+        TODO("Not yet implemented")
+    }
 }

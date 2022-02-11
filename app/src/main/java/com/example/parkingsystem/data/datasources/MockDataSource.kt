@@ -4,14 +4,25 @@ import android.os.Handler
 import android.os.Looper
 import com.example.parkingsystem.base.RepositoryResult
 import com.example.parkingsystem.base.Result
+import com.example.parkingsystem.models.ParkingSpace
 
 class MockDataSource {
 
     // TODO: check what info should be returned for user
     fun doLogin(email: String, password: String, repositoryResult: RepositoryResult) {
         delayResponse() {
+            // TODO: add valid email validation
+            if (email.isEmpty() || password.isEmpty()) {
+                repositoryResult.result(Result.Error("All fields must not be empty"))
+                return@delayResponse
+            }
+
             repositoryResult.result(Result.Success(Unit))
         }
+    }
+
+    fun loadParkingSpaces(repositoryResult: RepositoryResult) {
+        val parkingSpaces = listOf(ParkingSpace("48"))
     }
 
 

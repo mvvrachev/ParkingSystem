@@ -9,6 +9,9 @@ import com.example.parkingsystem.data.ParkingSystemRepositoryImpl
 class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSystemRepositoryImpl()) : ViewModel() {
     // TODO: Implement the ViewModel
 
+    fun loadParkingSpaces() {
+    }
+
     fun callSecurityGuard() {
         val intent = Intent(Intent.ACTION_DIAL)
         intent.data = Uri.parse("tel:0884234597")

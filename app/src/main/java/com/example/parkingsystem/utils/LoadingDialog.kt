@@ -1,26 +1,25 @@
 package com.example.parkingsystem.utils
 
 import android.app.AlertDialog
-import androidx.fragment.app.Fragment
+import android.content.Context
 import com.example.parkingsystem.R
 
-class LoadingDialog(private val fragment: Fragment) {
+class LoadingDialog(context: Context) {
 
-    private lateinit var dialog: AlertDialog
+    private val dialog: AlertDialog
 
-    fun startLoading() {
-        val dialogView = fragment.layoutInflater.inflate(R.layout.loader, null)
-
-        val builder = AlertDialog.Builder(fragment.requireContext())
-        builder.setView(dialogView)
+    init {
+        val builder = AlertDialog.Builder(context)
+        builder.setView(R.layout.loader)
             .setCancelable(false)
-
         dialog = builder.create()
-        dialog.show()
-
     }
 
-    fun dismiss() {
+    fun show() {
+        dialog.show()
+    }
+
+    fun hide() {
         dialog.dismiss()
     }
 }

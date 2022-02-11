@@ -2,21 +2,21 @@ package com.example.parkingsystem.ui.login
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.parkingsystem.R
 import com.example.parkingsystem.databinding.FragmentLoginBinding
 import com.example.parkingsystem.utils.viewBinding
-import androidx.appcompat.app.AppCompatActivity
-import com.example.parkingsystem.utils.LoadingDialog
+import com.example.parkingsystem.base.BaseFragment
+import com.example.parkingsystem.utils.getSupportActionBar
 
-class LoginFragment : Fragment(R.layout.fragment_login) {
+class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     // kotlin delegated property
     private val binding : FragmentLoginBinding by viewBinding(FragmentLoginBinding::bind)
 
     private lateinit var viewModel: LoginViewModel
+
 
     // TODO: show errors with Toast or SnackBar
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,23 +24,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
 
         // TODO: check why action bar is visible - done
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        getSupportActionBar().hide()
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         // TODO: check viewLifecycleOwner
         viewModel.viewState.observe(viewLifecycleOwner) {
+            loaderVisible(it.isLoading)
 
-            val loader = LoadingDialog(this)
-
-            if (it.isLoading) {
-                // show loading ProgressBar
-                // TODO: check examples for loader - done
-                loader.startLoading()
-                loader.dismiss()
-            }
             if (it.successLogin) {
                 // TODO: Check why app is crashing after calling dismiss()
-                //loader.dismiss()
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }

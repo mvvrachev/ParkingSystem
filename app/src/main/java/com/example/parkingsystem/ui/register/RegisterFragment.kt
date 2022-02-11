@@ -14,14 +14,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private val binding : FragmentRegisterBinding by viewBinding(FragmentRegisterBinding::bind)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
