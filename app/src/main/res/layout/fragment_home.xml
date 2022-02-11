@@ -15,5 +15,13 @@
         android:src="@drawable/ic_baseline_phone_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="24dp"/>
+        android:layout_margin="24dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/parkingSpaces"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:scrollbars="vertical"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

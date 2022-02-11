@@ -30,18 +30,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         // TODO: Use the ViewModel
-        // TODO how to hide back button
+        // TODO how to hide back button - done
 
+        //Check whether a permission is needed to dial numbers
         binding.callSecurityGuard.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse("tel:0885239454")
+            intent.data = Uri.parse("tel:1234567890")
             startActivity(intent)
         }
-
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
     }
 }

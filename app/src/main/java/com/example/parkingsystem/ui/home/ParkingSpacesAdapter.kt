@@ -1,11 +1,12 @@
 package com.example.parkingsystem.ui.home
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 // when adding new items call notifyDataSetChanged()
-class ParkingSpacesAdapter : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
+class ParkingSpacesAdapter(var context: Context) : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingHolder {
         TODO("Not yet implemented")
