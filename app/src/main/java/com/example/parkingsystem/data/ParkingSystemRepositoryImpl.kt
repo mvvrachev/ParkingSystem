@@ -12,6 +12,16 @@ class ParkingSystemRepositoryImpl(
         mockDataSource.doLogin(email, password, callback)
     }
 
+    override fun doRegister(
+        username: String,
+        email: String,
+        carNumber: String,
+        password: String,
+        callback: RepositoryResult
+    ) {
+        mockDataSource.doRegister(username, email, carNumber, password, callback)
+    }
+
     override fun loadParkingSpaces(callback: RepositoryResult) {
         TODO("Not yet implemented")
     }

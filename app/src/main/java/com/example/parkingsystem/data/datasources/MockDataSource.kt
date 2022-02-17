@@ -21,6 +21,12 @@ class MockDataSource {
         }
     }
 
+    fun doRegister(username: String, email: String, carNumber: String, password: String, repositoryResult: RepositoryResult) {
+        delayResponse {
+            return@delayResponse
+        }
+    }
+
     fun loadParkingSpaces(repositoryResult: RepositoryResult) {
         val parkingSpaces = listOf(ParkingSpace("48"))
     }

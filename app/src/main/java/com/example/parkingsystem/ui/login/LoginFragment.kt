@@ -32,7 +32,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             loaderVisible(it.isLoading)
 
             if (it.successLogin) {
-                // TODO: Check why app is crashing after calling dismiss()
+                // TODO: Check why app is crashing after calling dismiss() - done
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
