@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Belgian Python/Desktop/Thesis work/ParkingSystem/app/src/main/res/layout/fragment_home.xml" value="0.13465952563121653" />
         <entry key="..\:/Users/Belgian Python/Desktop/Thesis work/ParkingSystem/app/src/main/res/layout/fragment_login.xml" value="0.133984375" />
-        <entry key="..\:/Users/Belgian Python/Desktop/Thesis work/ParkingSystem/app/src/main/res/layout/fragment_register.xml" value="0.5" />
+        <entry key="..\:/Users/Belgian Python/Desktop/Thesis work/ParkingSystem/app/src/main/res/layout/fragment_register.xml" value="0.25" />
+        <entry key="..\:/Users/Belgian Python/Desktop/Thesis work/ParkingSystem/app/src/main/res/layout/row_parking_space.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23505434782608695" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.7811050415039062" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.6570999145507813" />

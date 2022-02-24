@@ -25,12 +25,13 @@ class MockDataSource {
         delayResponse {
             return@delayResponse
         }
+
+        repositoryResult.result(Result.Success(Unit))
     }
 
     fun loadParkingSpaces(repositoryResult: RepositoryResult) {
         val parkingSpaces = listOf(ParkingSpace("48"))
     }
-
 
     private fun delayResponse(delayedFuncExecution: () -> Unit) {
         Handler(Looper.myLooper()!!).postDelayed({

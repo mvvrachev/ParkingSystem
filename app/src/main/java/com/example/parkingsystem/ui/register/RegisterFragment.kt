@@ -1,23 +1,42 @@
 package com.example.parkingsystem.ui.register
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.fragment.app.Fragment
 import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.parkingsystem.R
+import com.example.parkingsystem.base.BaseFragment
 import com.example.parkingsystem.databinding.FragmentRegisterBinding
+import com.example.parkingsystem.utils.getSupportActionBar
 import com.example.parkingsystem.utils.viewBinding
 
-class RegisterFragment : Fragment(R.layout.fragment_register) {
+class RegisterFragment : BaseFragment(R.layout.fragment_login) {
 
     private val binding : FragmentRegisterBinding by viewBinding(FragmentRegisterBinding::bind)
+
+    private lateinit var viewModel: RegisterViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        getSupportActionBar().hide()
+
+        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
+
+        viewModel.viewState.observe(viewLifecycleOwner) {
+            loaderVisible(it.isLoading)
+
+            if(it.successRegister) {
+               findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
+            }
+        }
+
+        with(binding) {
+            registerButton.setOnClickListener {
+                viewModel.doRegister("username", "email@email.com", "CB2565AK", "ddsd")
+            }
+        }
+
 
     }
 }

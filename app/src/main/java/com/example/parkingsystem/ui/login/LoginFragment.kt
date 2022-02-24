@@ -3,6 +3,7 @@ package com.example.parkingsystem.ui.login
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.parkingsystem.R
 import com.example.parkingsystem.databinding.FragmentLoginBinding
@@ -22,8 +23,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        // TODO: check why action bar is visible - done
         getSupportActionBar().hide()
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
@@ -32,11 +31,17 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             loaderVisible(it.isLoading)
 
             if (it.successLogin) {
-                // TODO: Check why app is crashing after calling dismiss() - done
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
+
+            if(it.error.isNotEmpty()) {
+                //TODO: check why toast and loader are showing at the same time after the second time the button is pressed
+                Toast.makeText(context,it.error, Toast.LENGTH_SHORT).show()
+            }
         }
+
         with(binding) {
+
             registerButtonLoginPage.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
             }
@@ -46,6 +51,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 viewModel.doLogin(email, password)
             }
         }
+
 
     }
 
