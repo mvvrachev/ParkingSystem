@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.example.parkingsystem.R
 import com.example.parkingsystem.databinding.FragmentHomeBinding
+import com.example.parkingsystem.utils.getSupportActionBar
 import com.example.parkingsystem.utils.viewBinding
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -22,9 +23,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Use extension func
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        // TODO: Use extension func - done
+        getSupportActionBar().hide()
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         // TODO: Use the ViewModel
