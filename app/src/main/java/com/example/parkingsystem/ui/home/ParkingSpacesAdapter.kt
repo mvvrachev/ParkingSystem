@@ -1,6 +1,7 @@
 package com.example.parkingsystem.ui.home
 
-import android.content.Context
+import android.content.ContentValues.TAG
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,21 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.parkingsystem.R
 import com.example.parkingsystem.models.ParkingSpace
 import com.google.android.material.chip.Chip
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.*
+//import com.google.firebase.firestore.ktx.firestore
+//import com.google.firebase.ktx.Firebase
 
 // when adding new items call notifyDataSetChanged()
 // ListAdapter must extend RecyclerView
 class ParkingSpacesAdapter() : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
 
+//    private val db = Firebase.firestore
+
     private val today = "24/02"
     private val tomorrow = "25/02"
 
-    private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf(
-        ParkingSpace("Area -1 / Inside / Space 21"),
-        ParkingSpace("Area 0 / Outside / Space 20"),
-        ParkingSpace("Area -1 / Inside / Space 1"))
+    private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf(ParkingSpace("koko"), ParkingSpace("space 2"), ParkingSpace("space 3"))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.row_parking_space, parent, false)
@@ -41,7 +40,7 @@ class ParkingSpacesAdapter() : RecyclerView.Adapter<ParkingSpacesAdapter.Parking
         return parkingSpaces.size
     }
 
-    fun loadDate(data: List<ParkingSpace>) {
+    fun loadData(data: List<ParkingSpace>) {
         parkingSpaces.clear()
         parkingSpaces.addAll(data)
         notifyDataSetChanged()
@@ -59,4 +58,17 @@ class ParkingSpacesAdapter() : RecyclerView.Adapter<ParkingSpacesAdapter.Parking
 //        }
 
     }
+
+//    fun readData() {
+//        db.collection("parking-management-system")
+//            .get()
+//            .addOnSuccessListener { result ->
+//                for (document in result) {
+//                    Log.d(TAG, "${document.id} => ${document.data}")
+//                }
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.w(TAG, "Error getting documents.", exception)
+//            }
+//    }
 }

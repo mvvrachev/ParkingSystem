@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "415393355548",
+    "project_id": "ocado-parking-system-1",
+    "storage_bucket": "ocado-parking-system-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415393355548:android:4e95b6bb755312555b8cd9",
+        "android_client_info": {
+          "package_name": "com.example.parkingsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415393355548-3gjlv2256ll555de28e1pofsppfj5b1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo45o5lfBxz7W5Jcb_7kETw4y454YplOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415393355548-3gjlv2256ll555de28e1pofsppfj5b1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

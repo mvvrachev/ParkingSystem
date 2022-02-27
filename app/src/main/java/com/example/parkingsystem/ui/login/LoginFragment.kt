@@ -1,7 +1,9 @@
 package com.example.parkingsystem.ui.login
 
+import android.content.ContentValues
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
@@ -34,9 +36,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
 
-            if(it.error.isNotEmpty()) {
-                //TODO: check why toast and loader are showing at the same time after the second time the button is pressed
-                Toast.makeText(context,it.error, Toast.LENGTH_SHORT).show()
+            if(it.error.isNotEmpty() && !it.isLoading) {
+                Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -46,8 +47,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
             }
             loginButton.setOnClickListener {
-                val email = "q@mailinaor.com"
-                val password = "123456"
+                val email = binding.emailEditTextLogin.text.toString()
+                val password = binding.passwordEditTextLogin.text.toString()
                 viewModel.doLogin(email, password)
             }
         }

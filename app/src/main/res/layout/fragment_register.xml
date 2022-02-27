@@ -48,14 +48,14 @@
         android:autofillHints="emailAddress"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/car_number_edit_text_register"
+        app:layout_constraintBottom_toTopOf="@+id/carNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_edit_text_register"
         android:layout_marginBottom="16dp"/>
 
     <EditText
-        android:id="@+id/car_number_edit_text_register"
+        android:id="@+id/carNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintWidth_percent="0.8"
@@ -81,7 +81,7 @@
         app:layout_constraintBottom_toTopOf="@+id/confirm_password_edit_text_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/car_number_edit_text_register"
+        app:layout_constraintTop_toBottomOf="@id/carNumber"
         android:layout_marginBottom="16dp"/>
 
     <EditText

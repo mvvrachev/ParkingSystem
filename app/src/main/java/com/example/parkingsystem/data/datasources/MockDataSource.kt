@@ -2,6 +2,7 @@ package com.example.parkingsystem.data.datasources
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Patterns
 import com.example.parkingsystem.base.RepositoryResult
 import com.example.parkingsystem.base.Result
 import com.example.parkingsystem.models.ParkingSpace
@@ -13,7 +14,12 @@ class MockDataSource {
         delayResponse() {
             // TODO: add valid email validation
             if (email.isEmpty() || password.isEmpty()) {
-                repositoryResult.result(Result.Error("All fields must not be empty"))
+                repositoryResult.result(Result.Error("Fields must not be empty!"))
+                return@delayResponse
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                repositoryResult.result(Result.Error("Invalid email address!"))
                 return@delayResponse
             }
 

@@ -2,6 +2,7 @@ package com.example.parkingsystem.ui.register
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.parkingsystem.R
@@ -36,7 +37,5 @@ class RegisterFragment : BaseFragment(R.layout.fragment_login) {
                 viewModel.doRegister("username", "email@email.com", "CB2565AK", "ddsd")
             }
         }
-
-
     }
 }
