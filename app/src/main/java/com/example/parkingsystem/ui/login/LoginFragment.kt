@@ -1,9 +1,7 @@
 package com.example.parkingsystem.ui.login
 
-import android.content.ContentValues
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController

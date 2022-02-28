@@ -22,7 +22,7 @@ class ParkingSpacesAdapter() : RecyclerView.Adapter<ParkingSpacesAdapter.Parking
     private val today = "24/02"
     private val tomorrow = "25/02"
 
-    private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf(ParkingSpace("koko"), ParkingSpace("space 2"), ParkingSpace("space 3"))
+    private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.row_parking_space, parent, false)
@@ -30,7 +30,7 @@ class ParkingSpacesAdapter() : RecyclerView.Adapter<ParkingSpacesAdapter.Parking
     }
 
     override fun onBindViewHolder(holder: ParkingHolder, position: Int) {
-        holder.parkingSpaceNumber.text = parkingSpaces[position].name
+        //holder.parkingSpaceNumber.text = parkingSpaces[position].name
         holder.today.text = today
         holder.tomorrow.text = tomorrow
 

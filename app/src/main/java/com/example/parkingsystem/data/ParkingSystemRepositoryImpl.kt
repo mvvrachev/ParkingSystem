@@ -1,10 +1,12 @@
 package com.example.parkingsystem.data
 
 import com.example.parkingsystem.base.RepositoryResult
+import com.example.parkingsystem.data.datasources.FirebaseRemoteDataSource
 import com.example.parkingsystem.data.datasources.MockDataSource
 
 class ParkingSystemRepositoryImpl(
-    private val mockDataSource: MockDataSource = MockDataSource()
+    private val mockDataSource: MockDataSource = MockDataSource(),
+    private val firebaseRemoteDataSource: FirebaseRemoteDataSource = FirebaseRemoteDataSource()
 ) : ParkingSystemRepository {
 
     override fun doLogin(email: String, password: String, callback: RepositoryResult) {
@@ -23,6 +25,6 @@ class ParkingSystemRepositoryImpl(
     }
 
     override fun loadParkingSpaces(callback: RepositoryResult) {
-        TODO("Not yet implemented")
+        firebaseRemoteDataSource.loadParkingSpaces(callback)
     }
 }
