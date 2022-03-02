@@ -32,10 +32,10 @@ class RegisterFragment : BaseFragment(R.layout.fragment_login) {
             }
         }
 
-        with(binding) {
-            registerButton.setOnClickListener {
-                viewModel.doRegister("username", "email@email.com", "CB2565AK", "ddsd")
-            }
-        }
+//        with(binding) {
+//            registerButton.setOnClickListener {
+//                viewModel.doRegister("username", "email@email.com", "CB2565AK", "ddsd")
+//            }
+//        }
     }
 }

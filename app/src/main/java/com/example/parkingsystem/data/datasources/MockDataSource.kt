@@ -37,11 +37,6 @@ class MockDataSource {
         repositoryResult.result(Result.Success(Unit))
     }
 
-    fun loadParkingSpaces(repositoryResult: RepositoryResult) {
-        val db = Firebase.firestore
-        val parkingSpaces = db.collection("parking-management-system").document("parking-spaces")
-    }
-
     private fun delayResponse(delayedFuncExecution: () -> Unit) {
         Handler(Looper.myLooper()!!).postDelayed({
             delayedFuncExecution()

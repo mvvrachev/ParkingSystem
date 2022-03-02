@@ -24,7 +24,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         // TODO: Use extension func - done
-        getSupportActionBar().hide()
+        //getSupportActionBar().hide()
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         // TODO: Use the ViewModel

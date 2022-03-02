@@ -12,9 +12,4 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
     fun loadParkingSpaces() {
     }
 
-    fun callSecurityGuard() {
-        val intent = Intent(Intent.ACTION_DIAL)
-        intent.data = Uri.parse("tel:0884234597")
-
-    }
 }
