@@ -5,9 +5,7 @@ import android.os.Looper
 import android.util.Patterns
 import com.example.parkingsystem.base.RepositoryResult
 import com.example.parkingsystem.base.Result
-import com.example.parkingsystem.models.ParkingSpace
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+
 
 class MockDataSource {
 

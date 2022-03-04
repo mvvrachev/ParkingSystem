@@ -5,6 +5,8 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.example.parkingsystem.utils.LoadingDialog
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
+import com.google.android.material.snackbar.Snackbar
 
 open class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
 
@@ -20,6 +22,12 @@ open class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayou
             loader.show()
         } else {
             loader.hide()
+        }
+    }
+
+    fun showError(error: String) {
+        if (error.isNotEmpty()) {
+            Snackbar.make(requireView(), error, LENGTH_SHORT).show()
         }
     }
 }

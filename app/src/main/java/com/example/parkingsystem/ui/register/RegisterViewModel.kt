@@ -11,15 +11,15 @@ import com.example.parkingsystem.data.ParkingSystemRepository
 import com.example.parkingsystem.data.ParkingSystemRepositoryImpl
 
 
-class RegisterViewModel(private val repository: ParkingSystemRepository = ParkingSystemRepositoryImpl()): ViewModel() {
+class RegisterViewModel(private val repository: ParkingSystemRepository = ParkingSystemRepositoryImpl()) : ViewModel() {
 
     private val _viewState: MutableLiveData<RegisterViewState> = MutableLiveData(RegisterViewState())
     val viewState: LiveData<RegisterViewState> = _viewState
 
     fun doRegister(username: String, email: String, carNumber: String, password: String) {
         _viewState.value = _viewState.value?.copy(isLoading = true)
-        val result = object : RepositoryResult {
-            override fun result(result: Result<*>) {
+        repository.doRegister(username, email, carNumber, password, object : RepositoryResult<Unit> {
+            override fun result(result: Result<Unit>) {
                 when (result) {
                     is Success -> {
                         _viewState.value = _viewState.value?.copy(successRegister = true, isLoading = false)
@@ -29,13 +29,12 @@ class RegisterViewModel(private val repository: ParkingSystemRepository = Parkin
                     }
                 }
             }
-        }
-        repository.doRegister(username, email, carNumber, password, result)
+        })
     }
 }
 
-data class RegisterViewState (
+data class RegisterViewState(
     val successRegister: Boolean = false,
     val error: String = "",
     val isLoading: Boolean = false
-    )
+)

@@ -11,12 +11,13 @@ import com.example.parkingsystem.databinding.FragmentRegisterBinding
 import com.example.parkingsystem.utils.getSupportActionBar
 import com.example.parkingsystem.utils.viewBinding
 
-class RegisterFragment : BaseFragment(R.layout.fragment_login) {
+class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     private val binding : FragmentRegisterBinding by viewBinding(FragmentRegisterBinding::bind)
 
     private lateinit var viewModel: RegisterViewModel
 
+    // TODO add back button go return to login screen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -32,10 +33,10 @@ class RegisterFragment : BaseFragment(R.layout.fragment_login) {
             }
         }
 
-//        with(binding) {
-//            registerButton.setOnClickListener {
-//                viewModel.doRegister("username", "email@email.com", "CB2565AK", "ddsd")
-//            }
-//        }
+        with(binding) {
+            registerButton.setOnClickListener {
+                viewModel.doRegister("username", "email@email.com", "CB2565AK", "ddsd")
+            }
+        }
     }
 }

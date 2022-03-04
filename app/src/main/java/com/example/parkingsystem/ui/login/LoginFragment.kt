@@ -50,6 +50,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
             registerButtonLoginPage.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+                Log.d(TAG, "register button is clicked")
             }
             loginButton.setOnClickListener {
                 val email = binding.emailEditTextLogin.text.toString()

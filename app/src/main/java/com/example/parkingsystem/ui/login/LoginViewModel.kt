@@ -18,8 +18,8 @@ class LoginViewModel(private val repository: ParkingSystemRepository = ParkingSy
 
     fun doLogin(email: String, password: String) {
         _viewState.value = _viewState.value?.copy(isLoading = true)
-        val result = object : RepositoryResult {
-            override fun result(result: Result<*>) {
+        repository.doLogin(email, password, object : RepositoryResult<Unit> {
+            override fun result(result: Result<Unit>) {
                 when (result) {
                     is Success -> {
                         _viewState.value = _viewState.value?.copy(successLogin = true, isLoading = false)
@@ -29,8 +29,7 @@ class LoginViewModel(private val repository: ParkingSystemRepository = ParkingSy
                     }
                 }
             }
-        }
-        repository.doLogin(email, password, result)
+        })
     }
 }
 
