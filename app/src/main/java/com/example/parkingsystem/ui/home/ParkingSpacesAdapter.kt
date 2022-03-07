@@ -20,9 +20,9 @@ import java.util.*
 
 // when adding new items call notifyDataSetChanged()
 // ListAdapter must extend RecyclerView
-class ParkingSpacesAdapter(private val parkingSpaces: MutableList<ParkingSpace>) : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
+class ParkingSpacesAdapter : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
 
-    //private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf()
+    private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingHolder {
         val layout =
@@ -38,20 +38,17 @@ class ParkingSpacesAdapter(private val parkingSpaces: MutableList<ParkingSpace>)
     }
 
     override fun getItemCount(): Int {
-//        val a = parkingSpaces[0].spaces?.size
-//        return a as Int
-        return 1
-
+        return parkingSpaces.size
     }
 
-//    fun loadData(data: List<ParkingSpace>) {
-//        parkingSpaces.clear()
-//        parkingSpaces.addAll(data)
-//        notifyDataSetChanged()
-//    }
+    fun setData(data: List<ParkingSpace>) {
+        parkingSpaces.clear()
+        parkingSpaces.addAll(data)
+        notifyDataSetChanged()
+    }
 
     // TODO: How to do binding gist github
-    class ParkingHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ParkingHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val parkingSpaceNumber: TextView = itemView.findViewById(R.id.parkingSpaceNumber)
         val today: Chip = itemView.findViewById(R.id.dateOne)
         val tomorrow: Chip = itemView.findViewById(R.id.dateTwo)

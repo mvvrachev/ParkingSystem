@@ -5,9 +5,9 @@ import com.example.parkingsystem.models.ParkingSpace
 
 interface ParkingSystemRepository {
 
-    fun doLogin(email: String, password: String, callback: RepositoryResult)
-    fun doRegister(username: String, email: String, carNumber: String, password: String, callback: RepositoryResult)
+    fun doLogin(email: String, password: String, callback: RepositoryResult<Unit>)
+    fun doRegister(username: String, email: String, carNumber: String, password: String, callback: RepositoryResult<Unit>)
 
-    fun loadParkingSpaces(callback: RepositoryResult): MutableList<ParkingSpace>
+    fun loadParkingSpaces(callback: RepositoryResult<List<ParkingSpace>>)
 
 }

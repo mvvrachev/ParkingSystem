@@ -13,25 +13,25 @@ import com.example.parkingsystem.base.Result
 
 class FirebaseRemoteDataSource {
 
-    fun loadParkingSpaces(repositoryResult: RepositoryResult): MutableList<ParkingSpace> {
+    fun loadParkingSpaces(repositoryResult: RepositoryResult<List<ParkingSpace>>) {
         val parkingSpaces = mutableListOf<ParkingSpace>()
         val db = Firebase.firestore.collection("parking-management-system").document("parking-spaces")
+
+        // cast firebase obj to local model
+        // TODO; Map Firebase complex object to much more simple one
         db.get()
             .addOnSuccessListener { d ->
                 val space = d.toObject<ParkingSpace>()
                 if (space != null) {
                     parkingSpaces.add(space)
                 }
-                repositoryResult.result(Result.Success(Unit))
+
+
+//                repositoryResult.result(Result.Success(Unit))
             }
             .addOnFailureListener { exception ->
                 repositoryResult.result(Result.Error(exception.toString()))
             }
-
-        return parkingSpaces
-
-
-
     }
 
 }

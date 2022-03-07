@@ -14,6 +14,7 @@ class SplashScreen : AppCompatActivity() {
         supportActionBar?.hide()
 
         //TODO: Check whether user is logged in
+        // https://bignerdranch.com/blog/splash-screens-the-right-way/
 
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this@SplashScreen, MainActivity::class.java)
