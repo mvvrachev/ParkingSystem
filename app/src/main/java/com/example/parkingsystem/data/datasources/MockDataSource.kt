@@ -10,7 +10,7 @@ import com.example.parkingsystem.base.Result
 class MockDataSource {
 
     // TODO: check what info should be returned for user
-    fun doLogin(email: String, password: String, repositoryResult: RepositoryResult) {
+    fun doLogin(email: String, password: String, repositoryResult: RepositoryResult<Unit>) {
         delayResponse() {
             // TODO: add valid email validation
             if (email.isEmpty() || password.isEmpty()) {
@@ -27,7 +27,7 @@ class MockDataSource {
         }
     }
 
-    fun doRegister(username: String, email: String, carNumber: String, password: String, repositoryResult: RepositoryResult) {
+    fun doRegister(username: String, email: String, carNumber: String, password: String, repositoryResult: RepositoryResult<Unit>) {
         delayResponse {
             return@delayResponse
         }

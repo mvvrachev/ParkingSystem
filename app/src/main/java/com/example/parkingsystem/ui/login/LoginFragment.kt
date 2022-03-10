@@ -12,6 +12,7 @@ import com.example.parkingsystem.R
 import com.example.parkingsystem.databinding.FragmentLoginBinding
 import com.example.parkingsystem.utils.viewBinding
 import com.example.parkingsystem.base.BaseFragment
+import com.example.parkingsystem.base.Result
 import com.example.parkingsystem.models.ParkingSpace
 import com.example.parkingsystem.utils.getSupportActionBar
 import com.google.firebase.firestore.ktx.firestore
@@ -50,7 +51,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
             registerButtonLoginPage.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-                Log.d(TAG, "register button is clicked")
             }
             loginButton.setOnClickListener {
                 val email = binding.emailEditTextLogin.text.toString()

@@ -10,7 +10,7 @@ class ParkingSystemRepositoryImpl(
     private val firebaseRemoteDataSource: FirebaseRemoteDataSource = FirebaseRemoteDataSource()
 ) : ParkingSystemRepository {
 
-    override fun doLogin(email: String, password: String, callback: RepositoryResult) {
+    override fun doLogin(email: String, password: String, callback: RepositoryResult<Unit>) {
         // TODO: validation to be done here
         mockDataSource.doLogin(email, password, callback)
     }
@@ -20,12 +20,12 @@ class ParkingSystemRepositoryImpl(
         email: String,
         carNumber: String,
         password: String,
-        callback: RepositoryResult
+        callback: RepositoryResult<Unit>
     ) {
         mockDataSource.doRegister(username, email, carNumber, password, callback)
     }
 
-    override fun loadParkingSpaces(callback: RepositoryResult): MutableList<ParkingSpace> {
-        return firebaseRemoteDataSource.loadParkingSpaces(callback)
+    override fun loadParkingSpaces(callback: RepositoryResult<List<ParkingSpace>>) {
+        firebaseRemoteDataSource.loadParkingSpaces(callback)
     }
 }
