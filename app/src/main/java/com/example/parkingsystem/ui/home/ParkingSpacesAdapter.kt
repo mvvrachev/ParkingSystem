@@ -21,7 +21,8 @@ import java.util.*
 
 // when adding new items call notifyDataSetChanged()
 // ListAdapter must extend RecyclerView
-class ParkingSpacesAdapter : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
+class ParkingSpacesAdapter(private val todayDate: String,
+                           private val tomorrowDate: String) : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
 
     private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf()
     private lateinit var parkingSpaceText: String
@@ -35,8 +36,8 @@ class ParkingSpacesAdapter : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHo
     override fun onBindViewHolder(holder: ParkingHolder, position: Int) {
         parkingSpaceText = "Floor: ${parkingSpaces[position].floor} / Space: ${parkingSpaces[position].id}"
         holder.parkingSpaceNumber.text = parkingSpaceText
-        holder.today.text = getTodayDate()
-        holder.tomorrow.text = getTomorrowDate()
+        holder.today.text = todayDate
+        holder.tomorrow.text = tomorrowDate
 
     }
 
@@ -56,21 +57,4 @@ class ParkingSpacesAdapter : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHo
         val today: Chip = itemView.findViewById(R.id.dateOne)
         val tomorrow: Chip = itemView.findViewById(R.id.dateTwo)
     }
-
-    private fun getTodayDate(): String {
-        val formatter = SimpleDateFormat("dd/MM/yyyy")
-        val calendar = Calendar.getInstance()
-        return formatter.format(calendar.time)
-
-
-    }
-
-    private fun getTomorrowDate(): String {
-        val formatter = SimpleDateFormat("dd/MM/yyyy")
-        val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DATE, 1)
-
-         return formatter.format(calendar.time)
-    }
-
 }

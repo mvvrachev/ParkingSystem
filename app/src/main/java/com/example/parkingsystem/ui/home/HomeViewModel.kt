@@ -12,6 +12,8 @@ import com.example.parkingsystem.base.Result.Success
 import com.example.parkingsystem.data.ParkingSystemRepository
 import com.example.parkingsystem.data.ParkingSystemRepositoryImpl
 import com.example.parkingsystem.models.ParkingSpace
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSystemRepositoryImpl()) : ViewModel() {
 
@@ -44,4 +46,20 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
         val isLoading: Boolean = false,
         val error: String = ""
     )
+
+    fun getTodayDate(): String {
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        val calendar = Calendar.getInstance()
+        return formatter.format(calendar.time)
+
+
+    }
+
+    fun getTomorrowDate(): String {
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DATE, 1)
+
+        return formatter.format(calendar.time)
+    }
 }

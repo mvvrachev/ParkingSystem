@@ -23,7 +23,7 @@ class ParkingSystemRepositoryImpl(
         confirmPassword: String,
         callback: RepositoryResult<Unit>
     ) {
-        mockDataSource.doRegister(username, email, carNumber, password, confirmPassword, callback)
+        firebaseRemoteDataSource.doRegister(username, email, carNumber, password, confirmPassword, callback)
     }
 
     override fun loadParkingSpaces(callback: RepositoryResult<List<ParkingSpace>>) {

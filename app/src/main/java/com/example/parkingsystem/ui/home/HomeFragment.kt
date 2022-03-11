@@ -24,8 +24,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val binding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
 
     private lateinit var viewModel: HomeViewModel
-//    private lateinit var adapter: ParkingSpacesAdapter
-    private var adapter = ParkingSpacesAdapter()
+    private lateinit var adapter: ParkingSpacesAdapter
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,6 +36,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        adapter = ParkingSpacesAdapter(viewModel.getTodayDate(), viewModel.getTomorrowDate())
 
         viewModel.parkingSpaces.observe(viewLifecycleOwner) {
             binding.refresher.isRefreshing = it.isLoading
