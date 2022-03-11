@@ -16,9 +16,9 @@ class RegisterViewModel(private val repository: ParkingSystemRepository = Parkin
     private val _viewState: MutableLiveData<RegisterViewState> = MutableLiveData(RegisterViewState())
     val viewState: LiveData<RegisterViewState> = _viewState
 
-    fun doRegister(username: String, email: String, carNumber: String, password: String) {
+    fun doRegister(username: String, email: String, carNumber: String, password: String, confirmPassword: String) {
         _viewState.value = _viewState.value?.copy(isLoading = true)
-        repository.doRegister(username, email, carNumber, password, object : RepositoryResult<Unit> {
+        repository.doRegister(username, email, carNumber, password, confirmPassword, object : RepositoryResult<Unit> {
             override fun result(result: Result<Unit>) {
                 when (result) {
                     is Success -> {

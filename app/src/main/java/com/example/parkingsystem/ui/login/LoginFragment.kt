@@ -42,7 +42,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
 
-            if(/*it.error.isNotEmpty()*/ !it.successLogin && !it.isLoading) {
+            if(!it.successLogin && !it.isLoading) {
                 Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
             }
         }

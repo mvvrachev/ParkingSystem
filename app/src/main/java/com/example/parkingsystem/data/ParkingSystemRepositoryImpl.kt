@@ -20,9 +20,10 @@ class ParkingSystemRepositoryImpl(
         email: String,
         carNumber: String,
         password: String,
+        confirmPassword: String,
         callback: RepositoryResult<Unit>
     ) {
-        mockDataSource.doRegister(username, email, carNumber, password, callback)
+        mockDataSource.doRegister(username, email, carNumber, password, confirmPassword, callback)
     }
 
     override fun loadParkingSpaces(callback: RepositoryResult<List<ParkingSpace>>) {

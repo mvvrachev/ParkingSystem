@@ -1,5 +1,7 @@
 package com.example.parkingsystem.ui.home
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,6 +28,7 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
             override fun result(result: Result<List<ParkingSpace>>) {
                 when(result) {
                     is Success -> {
+                        Log.d(TAG, "loadParkingSPaces data = ${result.data}")
                         _parkingSpaces.value = _parkingSpaces.value?.copy(isLoading = false, data = result.data, error = "")
                     }
                     is Error -> {

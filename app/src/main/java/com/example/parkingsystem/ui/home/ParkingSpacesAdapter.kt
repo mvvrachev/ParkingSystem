@@ -1,6 +1,7 @@
 package com.example.parkingsystem.ui.home
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ import java.util.*
 class ParkingSpacesAdapter : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
 
     private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf()
+    private lateinit var parkingSpaceText: String
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingHolder {
         val layout =
@@ -31,7 +33,8 @@ class ParkingSpacesAdapter : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHo
     }
 
     override fun onBindViewHolder(holder: ParkingHolder, position: Int) {
-        holder.parkingSpaceNumber.text = "text" //parkingSpaces[0].spaces?.get(position)?.get("id").toString()
+        parkingSpaceText = "Floor: ${parkingSpaces[position].floor} / Space: ${parkingSpaces[position].id}"
+        holder.parkingSpaceNumber.text = parkingSpaceText
         holder.today.text = getTodayDate()
         holder.tomorrow.text = getTomorrowDate()
 
