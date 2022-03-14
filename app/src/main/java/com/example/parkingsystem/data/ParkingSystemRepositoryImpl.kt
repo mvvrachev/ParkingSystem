@@ -11,8 +11,7 @@ class ParkingSystemRepositoryImpl(
 ) : ParkingSystemRepository {
 
     override fun doLogin(email: String, password: String, callback: RepositoryResult<Unit>) {
-        // TODO: validation to be done here
-        mockDataSource.doLogin(email, password, callback)
+        firebaseRemoteDataSource.doLogin(email, password, callback)
     }
 
     override fun doRegister(

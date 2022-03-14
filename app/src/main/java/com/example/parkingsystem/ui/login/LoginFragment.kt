@@ -15,6 +15,7 @@ import com.example.parkingsystem.base.BaseFragment
 import com.example.parkingsystem.base.Result
 import com.example.parkingsystem.models.ParkingSpace
 import com.example.parkingsystem.utils.getSupportActionBar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase

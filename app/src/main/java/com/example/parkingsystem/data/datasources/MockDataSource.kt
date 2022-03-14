@@ -16,7 +16,6 @@ class MockDataSource {
                 repositoryResult.result(Result.Error("Fields must not be empty!"))
                 return@delayResponse
             }
-
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 repositoryResult.result(Result.Error("Invalid email address!"))
                 return@delayResponse
@@ -26,29 +25,29 @@ class MockDataSource {
         }
     }
 
-    fun doRegister(username: String, email: String, carNumber: String, password: String, confirmPassword: String, repositoryResult: RepositoryResult<Unit>) {
-        delayResponse() {
-            if(username.isEmpty() || email.isEmpty() || carNumber.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                repositoryResult.result(Result.Error("Fields must not be empty!"))
-                return@delayResponse
-            }
-
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                repositoryResult.result(Result.Error("Invalid email address!"))
-                return@delayResponse
-            }
-            if(password.length < 8) {
-                repositoryResult.result(Result.Error("Password must be at least 8 characters!"))
-                return@delayResponse
-            }
-            if(password != confirmPassword) {
-                repositoryResult.result(Result.Error("Passwords do not match!"))
-                return@delayResponse
-            }
-
-            repositoryResult.result(Result.Success(Unit))
-        }
-    }
+//    fun doRegister(username: String, email: String, carNumber: String, password: String, confirmPassword: String, repositoryResult: RepositoryResult<Unit>) {
+//        delayResponse() {
+//            if(username.isEmpty() || email.isEmpty() || carNumber.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+//                repositoryResult.result(Result.Error("Fields must not be empty!"))
+//                return@delayResponse
+//            }
+//
+//            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+//                repositoryResult.result(Result.Error("Invalid email address!"))
+//                return@delayResponse
+//            }
+//            if(password.length < 8) {
+//                repositoryResult.result(Result.Error("Password must be at least 8 characters!"))
+//                return@delayResponse
+//            }
+//            if(password != confirmPassword) {
+//                repositoryResult.result(Result.Error("Passwords do not match!"))
+//                return@delayResponse
+//            }
+//
+//            repositoryResult.result(Result.Success(Unit))
+//        }
+//    }
 
     private fun delayResponse(delayedFuncExecution: () -> Unit) {
         Handler(Looper.myLooper()!!).postDelayed({

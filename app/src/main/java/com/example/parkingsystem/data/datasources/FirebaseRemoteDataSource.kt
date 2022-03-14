@@ -3,6 +3,7 @@ package com.example.parkingsystem.data.datasources
 import android.content.ContentValues.TAG
 import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import com.example.parkingsystem.base.RepositoryResult
 import com.example.parkingsystem.models.ParkingSpace
 import com.google.firebase.firestore.ktx.firestore
@@ -14,12 +15,17 @@ import com.google.firebase.auth.ktx.auth
 
 class FirebaseRemoteDataSource {
 
+    private val auth = Firebase.auth
+
     fun doRegister(username: String, email: String, carNumber: String, password: String, confirmPassword: String, repositoryResult: RepositoryResult<Unit>) {
         if(username.isEmpty() || email.isEmpty() || carNumber.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             repositoryResult.result(Result.Error("Fields must not be empty!"))
         }
         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             repositoryResult.result(Result.Error("Invalid email address!"))
+        }
+        else if(email.split("@")[1] != "elsys-bg.org") {
+            repositoryResult.result(Result.Error("Not an elsys email address!"))
         }
         else if(password.length < 8) {
             repositoryResult.result(Result.Error("Password must be at least 8 characters!"))
@@ -28,14 +34,13 @@ class FirebaseRemoteDataSource {
             repositoryResult.result(Result.Error("Passwords do not match!"))
         }
         else {
-            val auth = Firebase.auth
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         addAdditionalUserInfo(username, carNumber, auth.currentUser!!)
                         repositoryResult.result(Result.Success(Unit))
                     } else {
-                        repositoryResult.result(Result.Error("Could not create user!"))
+                        repositoryResult.result(Result.Error(task.exception.toString()))
                     }
                 }
         }
@@ -47,6 +52,21 @@ class FirebaseRemoteDataSource {
         db.collection("user-profiles").document(user.uid).set(values)
     }
 
+    fun doLogin(email: String, password: String, repositoryResult: RepositoryResult<Unit>) {
+        if(email.isEmpty() || password.isEmpty()) {
+            repositoryResult.result(Result.Error("Please fill in the fields!"))
+        } else {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        repositoryResult.result(Result.Success(Unit))
+                    } else {
+                        repositoryResult.result(Result.Error(task.exception.toString()))
+                    }
+                }
+        }
+    }
+
     fun loadParkingSpaces(repositoryResult: RepositoryResult<List<ParkingSpace>>) {
         val parkingSpaces = mutableListOf<ParkingSpace>()
         val db = Firebase.firestore.collection("parking-spaces")
@@ -55,7 +75,6 @@ class FirebaseRemoteDataSource {
             .addOnSuccessListener { documents ->
                 for(document in documents) {
                     parkingSpaces.add(document.toObject())
-                    Log.d(TAG, "loaded space: ${document.toObject<ParkingSpace>()}")
                 }
                 repositoryResult.result(Result.Success(parkingSpaces))
             }
