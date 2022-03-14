@@ -1,18 +1,14 @@
 package com.example.parkingsystem.data.datasources
 
 import android.content.ContentValues.TAG
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.util.Patterns
-import android.widget.Toast
 import com.example.parkingsystem.base.RepositoryResult
 import com.example.parkingsystem.models.ParkingSpace
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.example.parkingsystem.base.Result
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 
@@ -36,14 +32,10 @@ class FirebaseRemoteDataSource {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-//                         Sign in success, update UI with the signed-in user's information
                         addAdditionalUserInfo(username, carNumber, auth.currentUser!!)
                         repositoryResult.result(Result.Success(Unit))
-                        Log.d(TAG, "createUserWithEmail:success")
                     } else {
-                        // If sign in fails, display a message to the user.
                         repositoryResult.result(Result.Error("Could not create user!"))
-                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     }
                 }
         }
@@ -59,12 +51,10 @@ class FirebaseRemoteDataSource {
         val parkingSpaces = mutableListOf<ParkingSpace>()
         val db = Firebase.firestore.collection("parking-spaces")
 
-        // cast firebase obj to local model
-        // TODO; Map Firebase complex object to much more simple one
         db.get()
             .addOnSuccessListener { documents ->
                 for(document in documents) {
-                    parkingSpaces.add(document.toObject<ParkingSpace>())
+                    parkingSpaces.add(document.toObject())
                     Log.d(TAG, "loaded space: ${document.toObject<ParkingSpace>()}")
                 }
                 repositoryResult.result(Result.Success(parkingSpaces))

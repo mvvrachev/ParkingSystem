@@ -38,7 +38,6 @@ class ParkingSpacesAdapter(private val todayDate: String,
         holder.parkingSpaceNumber.text = parkingSpaceText
         holder.today.text = todayDate
         holder.tomorrow.text = tomorrowDate
-
     }
 
     override fun getItemCount(): Int {
