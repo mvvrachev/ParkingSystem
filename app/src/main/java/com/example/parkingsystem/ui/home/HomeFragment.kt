@@ -5,8 +5,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parkingsystem.R
@@ -34,6 +38,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         //getSupportActionBar().hide()
         getSupportActionBar().show()
         getSupportActionBar().setDisplayHomeAsUpEnabled(false)
+        setHasOptionsMenu(true)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         adapter = ParkingSpacesAdapter(viewModel.getTodayDate(), viewModel.getTomorrowDate())
@@ -58,6 +63,20 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 intent.data = Uri.parse("tel:1234567890")
                 startActivity(intent)
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.userInfo -> {
+                findNavController().navigate(R.id.action_homeFragment_to_userInfoFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

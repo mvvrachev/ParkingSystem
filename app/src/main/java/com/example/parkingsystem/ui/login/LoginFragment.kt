@@ -49,7 +49,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         }
 
         with(binding) {
-
             registerButtonLoginPage.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
             }

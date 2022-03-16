@@ -25,7 +25,7 @@ class FirebaseRemoteDataSource {
             repositoryResult.result(Result.Error("Invalid email address!"))
         }
         else if(email.split("@")[1] != "elsys-bg.org") {
-            repositoryResult.result(Result.Error("Not an elsys email address!"))
+            repositoryResult.result(Result.Error("Not an ELSYS email address!"))
         }
         else if(password.length < 8) {
             repositoryResult.result(Result.Error("Password must be at least 8 characters!"))
@@ -81,9 +81,5 @@ class FirebaseRemoteDataSource {
             .addOnFailureListener { exception ->
                 repositoryResult.result(Result.Error(exception.toString()))
             }
-
-
     }
-
-
 }
