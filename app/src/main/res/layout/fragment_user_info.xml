@@ -74,6 +74,7 @@
         android:textSize="20sp"/>
 
     <Button
+        android:id="@+id/call_parking"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/call_parking"

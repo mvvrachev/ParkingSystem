@@ -60,7 +60,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             callSecurityGuard.setOnClickListener {
                 // Check whether a permission is needed to dial numbers
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:1234567890")
+                intent.data = Uri.parse(R.string.securityPhoneNumber.toString())
                 startActivity(intent)
             }
         }

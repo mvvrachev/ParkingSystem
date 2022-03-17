@@ -28,4 +28,8 @@ class ParkingSystemRepositoryImpl(
     override fun loadParkingSpaces(callback: RepositoryResult<List<ParkingSpace>>) {
         firebaseRemoteDataSource.loadParkingSpaces(callback)
     }
+
+    override fun doLogout(callback: RepositoryResult<Unit>) {
+        firebaseRemoteDataSource.doLogout(callback)
+    }
 }

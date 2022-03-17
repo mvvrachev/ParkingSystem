@@ -15,7 +15,6 @@ class LoginViewModel(private val repository: ParkingSystemRepository = ParkingSy
     private val _viewState: MutableLiveData<LoginViewState> = MutableLiveData(LoginViewState())
     val viewState: LiveData<LoginViewState> = _viewState
 
-
     fun doLogin(email: String, password: String) {
         _viewState.value = _viewState.value?.copy(isLoading = true)
         repository.doLogin(email, password, object : RepositoryResult<Unit> {

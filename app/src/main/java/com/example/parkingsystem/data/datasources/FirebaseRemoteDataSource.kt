@@ -16,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 class FirebaseRemoteDataSource {
 
     private val auth = Firebase.auth
+    private val db = Firebase.firestore
 
     fun doRegister(username: String, email: String, carNumber: String, password: String, confirmPassword: String, repositoryResult: RepositoryResult<Unit>) {
         if(username.isEmpty() || email.isEmpty() || carNumber.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
@@ -47,7 +48,6 @@ class FirebaseRemoteDataSource {
     }
 
     private fun addAdditionalUserInfo(username: String, carNumber: String, user: FirebaseUser) {
-        val db = Firebase.firestore
         val values = hashMapOf("username" to username, "carNumber" to carNumber)
         db.collection("user-profiles").document(user.uid).set(values)
     }
@@ -81,5 +81,14 @@ class FirebaseRemoteDataSource {
             .addOnFailureListener { exception ->
                 repositoryResult.result(Result.Error(exception.toString()))
             }
+    }
+
+    fun doLogout(repositoryResult: RepositoryResult<Unit>) {
+        try {
+            auth.signOut()
+            repositoryResult.result(Result.Success(Unit))
+        } catch (ex: Exception) {
+            repositoryResult.result(Result.Error(ex.toString()))
+        }
     }
 }
