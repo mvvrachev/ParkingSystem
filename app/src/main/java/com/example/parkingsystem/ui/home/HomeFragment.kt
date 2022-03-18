@@ -17,6 +17,7 @@ import com.example.parkingsystem.R
 import com.example.parkingsystem.base.BaseFragment
 import com.example.parkingsystem.databinding.FragmentHomeBinding
 import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.utils.DatesHelper
 import com.example.parkingsystem.utils.getSupportActionBar
 import com.example.parkingsystem.utils.viewBinding
 import com.google.firebase.firestore.ktx.firestore
@@ -41,13 +42,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         setHasOptionsMenu(true)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        adapter = ParkingSpacesAdapter(viewModel.getTodayDate(), viewModel.getTomorrowDate())
+        adapter = ParkingSpacesAdapter(DatesHelper().getTodayDate(), DatesHelper().getTomorrowDate())
 
         viewModel.parkingSpaces.observe(viewLifecycleOwner) {
             binding.refresher.isRefreshing = it.isLoading
             adapter.setData(it.data)
             showError(it.error)
         }
+
 
         with(binding) {
             // if RV blinks disable animation
@@ -60,7 +62,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             callSecurityGuard.setOnClickListener {
                 // Check whether a permission is needed to dial numbers
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse(R.string.securityPhoneNumber.toString())
+                intent.data = Uri.parse(requireContext().getString(R.string.securityPhoneNumber))
                 startActivity(intent)
             }
         }

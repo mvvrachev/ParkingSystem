@@ -1,31 +1,32 @@
 package com.example.parkingsystem.ui.home
 
-import android.content.ContentValues
+import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parkingsystem.R
 import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.models.Reservation
+import com.example.parkingsystem.models.UserInfo
+import com.example.parkingsystem.utils.ConfirmReservationDialogFragment
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import java.text.SimpleDateFormat
 
-import java.util.*
-
-
-// when adding new items call notifyDataSetChanged()
-// ListAdapter must extend RecyclerView
 class ParkingSpacesAdapter(private val todayDate: String,
                            private val tomorrowDate: String) : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
 
     private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf()
-    private lateinit var parkingSpaceText: String
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingHolder {
         val layout =
@@ -34,10 +35,32 @@ class ParkingSpacesAdapter(private val todayDate: String,
     }
 
     override fun onBindViewHolder(holder: ParkingHolder, position: Int) {
-        parkingSpaceText = "Floor: ${parkingSpaces[position].floor} / Space: ${parkingSpaces[position].id}"
-        holder.parkingSpaceNumber.text = parkingSpaceText
+        val context = holder.parkingSpaceNumber.context
+        val spaceNumber = context.getString(R.string.parkingSpace, parkingSpaces[position].floor, parkingSpaces[position].id)
+        holder.parkingSpaceNumber.text = spaceNumber
         holder.today.text = todayDate
         holder.tomorrow.text = tomorrowDate
+
+        holder.today.setOnClickListener {
+            val dialog = ConfirmReservationDialogFragment(todayDate, parkingSpaces[position].id, spaceNumber)
+            val ft = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+            dialog.show(ft, TAG)
+
+//            val auth = Firebase.auth.currentUser
+//            val db = Firebase.firestore.collection("user-profiles").document(auth?.uid.toString())
+//            val res = Firebase.firestore.collection("reservations")
+//            db.get().addOnSuccessListener { d ->
+//                if (d != null) {
+//                    Log.d(TAG, "DocumentSnapshot data: ${d.data}")
+//                    val u = d.toObject<UserInfo>()
+//                    val reservation = Reservation(u?.carNumber, todayDate, parkingSpaces[position].id, auth?.uid.toString())
+//                    res.add(reservation)
+//                } else {
+//                    Log.d(TAG, "No such document")
+//                }
+//            }
+
+        }
     }
 
     override fun getItemCount(): Int {

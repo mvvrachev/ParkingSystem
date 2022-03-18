@@ -15,11 +15,9 @@ class SplashScreen : AppCompatActivity() {
         //TODO: Check whether user is logged in
         // https://bignerdranch.com/blog/splash-screens-the-right-way/
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@SplashScreen, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }, 2000)
+        val intent = Intent(this@SplashScreen, MainActivity::class.java)
+        startActivity(intent)
+        finish()
 
     }
 }

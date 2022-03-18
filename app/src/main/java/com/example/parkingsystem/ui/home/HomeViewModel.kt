@@ -30,7 +30,6 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
             override fun result(result: Result<List<ParkingSpace>>) {
                 when(result) {
                     is Success -> {
-                        Log.d(TAG, "loadParkingSPaces data = ${result.data}")
                         _parkingSpaces.value = _parkingSpaces.value?.copy(isLoading = false, data = result.data, error = "")
                     }
                     is Error -> {
@@ -46,20 +45,4 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
         val isLoading: Boolean = false,
         val error: String = ""
     )
-
-    fun getTodayDate(): String {
-        val formatter = SimpleDateFormat("dd/MM/yyyy")
-        val calendar = Calendar.getInstance()
-        return formatter.format(calendar.time)
-
-
-    }
-
-    fun getTomorrowDate(): String {
-        val formatter = SimpleDateFormat("dd/MM/yyyy")
-        val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DATE, 1)
-
-        return formatter.format(calendar.time)
-    }
 }

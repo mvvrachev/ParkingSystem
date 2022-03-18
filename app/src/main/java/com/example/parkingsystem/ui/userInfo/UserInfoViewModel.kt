@@ -1,5 +1,7 @@
 package com.example.parkingsystem.ui.userInfo
 
+import android.content.ContentValues
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +11,12 @@ import com.example.parkingsystem.base.Result.Success
 import com.example.parkingsystem.base.Result.Error
 import com.example.parkingsystem.data.ParkingSystemRepository
 import com.example.parkingsystem.data.ParkingSystemRepositoryImpl
+import com.example.parkingsystem.models.UserInfo
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
 class UserInfoViewModel(private val repository: ParkingSystemRepository = ParkingSystemRepositoryImpl()) : ViewModel() {
 
@@ -30,6 +38,7 @@ class UserInfoViewModel(private val repository: ParkingSystemRepository = Parkin
             }
         })
     }
+
 }
 
 data class UserInfoViewState (
