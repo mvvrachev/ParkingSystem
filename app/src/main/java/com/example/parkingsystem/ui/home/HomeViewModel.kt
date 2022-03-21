@@ -1,7 +1,5 @@
 package com.example.parkingsystem.ui.home
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,9 +9,8 @@ import com.example.parkingsystem.base.Result.Error
 import com.example.parkingsystem.base.Result.Success
 import com.example.parkingsystem.data.ParkingSystemRepository
 import com.example.parkingsystem.data.ParkingSystemRepositoryImpl
+import com.example.parkingsystem.models.FirebaseParkingSpace
 import com.example.parkingsystem.models.ParkingSpace
-import java.text.SimpleDateFormat
-import java.util.*
 
 class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSystemRepositoryImpl()) : ViewModel() {
 
@@ -40,9 +37,14 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
         })
     }
 
-    data class HomeViewState(
-        val data: List<ParkingSpace> = emptyList(),
-        val isLoading: Boolean = false,
-        val error: String = ""
-    )
+    fun makeReservation() {
+        repository.makeReservation()
+    }
+
 }
+
+data class HomeViewState(
+    val data: List<ParkingSpace> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String = ""
+)

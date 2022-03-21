@@ -3,13 +3,16 @@ package com.example.parkingsystem.data.datasources
 import android.content.ContentValues.TAG
 import android.util.Log
 import android.util.Patterns
-import android.widget.Toast
 import com.example.parkingsystem.base.RepositoryResult
-import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.models.FirebaseParkingSpace
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.example.parkingsystem.base.Result
+import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.models.Reservation
+import com.example.parkingsystem.utils.DatesHelper.getTodayDate
+import com.example.parkingsystem.utils.DatesHelper.getTomorrowDate
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 
@@ -67,28 +70,67 @@ class FirebaseRemoteDataSource {
         }
     }
 
-    fun loadParkingSpaces(repositoryResult: RepositoryResult<List<ParkingSpace>>) {
-        val parkingSpaces = mutableListOf<ParkingSpace>()
-        val db = Firebase.firestore.collection("parking-spaces")
-
-        db.get()
-            .addOnSuccessListener { documents ->
-                for(document in documents) {
-                    parkingSpaces.add(document.toObject())
-                }
-                repositoryResult.result(Result.Success(parkingSpaces))
-            }
-            .addOnFailureListener { exception ->
-                repositoryResult.result(Result.Error(exception.toString()))
-            }
-    }
-
     fun doLogout(repositoryResult: RepositoryResult<Unit>) {
         try {
             auth.signOut()
             repositoryResult.result(Result.Success(Unit))
         } catch (ex: Exception) {
-            repositoryResult.result(Result.Error(ex.toString()))
+            repositoryResult.result(Result.Error("Could not log you out. Please try again!"))
         }
     }
+
+    fun loadParkingSpaces(repositoryResult: RepositoryResult<List<ParkingSpace>>) {
+        val firebaseParkingSpaces = mutableListOf<FirebaseParkingSpace>()
+        val reservations = mutableListOf<Reservation>()
+        val parkingSpacesWithReservations = mutableListOf<ParkingSpace>()
+
+        db.collection("parking-spaces").get()
+            .addOnSuccessListener { documents ->
+                for(document in documents) {
+                    firebaseParkingSpaces.add(document.toObject())
+                }
+
+                db.collection("reservations")
+                    .whereIn("date", listOf(getTodayDate(), getTomorrowDate())).get()
+                    .addOnSuccessListener { result ->
+                        for (document in result) {
+                            reservations.add(document.toObject())
+                        }
+
+                        for (ps in firebaseParkingSpaces) {
+                            parkingSpacesWithReservations.add(
+                                ParkingSpace(
+                                    requireNotNull(ps.id), requireNotNull(ps.floor),
+                                    isBookedToday = false,
+                                    isBookedTomorrow = false
+                                )
+                            )
+                        }
+
+                        for (ps in parkingSpacesWithReservations) {
+                            for (reservation in reservations) {
+                                if(ps.id == reservation.space) {
+                                    when (reservation.date) {
+                                        getTodayDate() -> {
+                                            ps.isBookedToday = true
+
+                                        }
+                                        getTomorrowDate() -> {
+                                            ps.isBookedTomorrow = true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        repositoryResult.result(Result.Success(parkingSpacesWithReservations))
+                    }
+                    .addOnFailureListener {
+                        repositoryResult.result(Result.Error("Could not fetch parking spaces. Swipe down to refresh!"))
+                    }
+            }
+            .addOnFailureListener {
+                repositoryResult.result(Result.Error("Could not fetch parking spaces. Swipe down to refresh!"))
+            }
+    }
+
 }

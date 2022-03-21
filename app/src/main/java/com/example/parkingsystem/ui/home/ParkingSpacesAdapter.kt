@@ -1,30 +1,18 @@
 package com.example.parkingsystem.ui.home
 
-import android.app.Dialog
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parkingsystem.R
+import com.example.parkingsystem.base.AdapterClickListener
 import com.example.parkingsystem.models.ParkingSpace
-import com.example.parkingsystem.models.Reservation
-import com.example.parkingsystem.models.UserInfo
-import com.example.parkingsystem.utils.ConfirmReservationDialogFragment
 import com.google.android.material.chip.Chip
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.auth.User
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 
 class ParkingSpacesAdapter(private val todayDate: String,
-                           private val tomorrowDate: String) : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
+                           private val tomorrowDate: String,
+                           private val clickCallback: AdapterClickListener) : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
 
     private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf()
 
@@ -36,15 +24,21 @@ class ParkingSpacesAdapter(private val todayDate: String,
 
     override fun onBindViewHolder(holder: ParkingHolder, position: Int) {
         val context = holder.parkingSpaceNumber.context
-        val spaceNumber = context.getString(R.string.parkingSpace, parkingSpaces[position].floor, parkingSpaces[position].id)
-        holder.parkingSpaceNumber.text = spaceNumber
+
+        holder.parkingSpaceNumber.text = context.getString(R.string.parkingSpace, parkingSpaces[position].floor, parkingSpaces[position].id)
+
         holder.today.text = todayDate
+        holder.today.isEnabled = !parkingSpaces[position].isBookedToday
+
         holder.tomorrow.text = tomorrowDate
+        holder.tomorrow.isEnabled = !parkingSpaces[position].isBookedTomorrow
 
         holder.today.setOnClickListener {
-            val dialog = ConfirmReservationDialogFragment(todayDate, parkingSpaces[position].id, spaceNumber)
-            val ft = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-            dialog.show(ft, TAG)
+            clickCallback.onClick(holder.adapterPosition, R.id.today)
+
+//            val dialog = ConfirmReservationDialogFragment(todayDate, parkingSpaces[position].id, spaceNumber)
+//            val ft = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+//            dialog.show(ft, TAG)
 
 //            val auth = Firebase.auth.currentUser
 //            val db = Firebase.firestore.collection("user-profiles").document(auth?.uid.toString())
@@ -61,6 +55,10 @@ class ParkingSpacesAdapter(private val todayDate: String,
 //            }
 
         }
+
+        holder.tomorrow.setOnClickListener {
+            clickCallback.onClick(holder.adapterPosition, R.id.tomorrow)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -73,10 +71,15 @@ class ParkingSpacesAdapter(private val todayDate: String,
         notifyDataSetChanged()
     }
 
+    fun getElementByPosition(position: Int): ParkingSpace {
+        return parkingSpaces[position]
+    }
+
     // TODO: How to do binding gist github
     class ParkingHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val parkingSpaceNumber: TextView = itemView.findViewById(R.id.parkingSpaceNumber)
-        val today: Chip = itemView.findViewById(R.id.dateOne)
-        val tomorrow: Chip = itemView.findViewById(R.id.dateTwo)
+        val today: Chip = itemView.findViewById(R.id.today)
+        val tomorrow: Chip = itemView.findViewById(R.id.tomorrow)
     }
+
 }

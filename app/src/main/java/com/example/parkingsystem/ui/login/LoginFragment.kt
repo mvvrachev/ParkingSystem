@@ -1,10 +1,7 @@
 package com.example.parkingsystem.ui.login
 
-import android.content.ContentValues
-import android.content.ContentValues.TAG
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
@@ -12,13 +9,7 @@ import com.example.parkingsystem.R
 import com.example.parkingsystem.databinding.FragmentLoginBinding
 import com.example.parkingsystem.utils.viewBinding
 import com.example.parkingsystem.base.BaseFragment
-import com.example.parkingsystem.base.Result
-import com.example.parkingsystem.models.ParkingSpace
 import com.example.parkingsystem.utils.getSupportActionBar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
 

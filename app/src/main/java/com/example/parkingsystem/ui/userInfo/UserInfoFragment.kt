@@ -50,7 +50,7 @@ class UserInfoFragment : BaseFragment(R.layout.fragment_user_info) {
         val db = Firebase.firestore.collection("user-profiles").document(auth?.uid.toString())
         db.get().addOnSuccessListener { documentSnapshot ->
             Log.d(TAG, "Document data:${documentSnapshot.toObject<UserInfo>()}")
-            u = documentSnapshot.toObject()!!
+            u = requireNotNull(documentSnapshot.toObject())
         }
 
         with(binding) {

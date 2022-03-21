@@ -3,7 +3,7 @@ package com.example.parkingsystem.utils
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DatesHelper {
+object DatesHelper {
     fun getTodayDate(): String {
         val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val calendar = Calendar.getInstance()

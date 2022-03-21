@@ -4,25 +4,25 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.parkingsystem.R
 import com.example.parkingsystem.base.BaseFragment
+import com.example.parkingsystem.base.DialogClickListener
+import com.example.parkingsystem.base.AdapterClickListener
 import com.example.parkingsystem.databinding.FragmentHomeBinding
-import com.example.parkingsystem.models.ParkingSpace
-import com.example.parkingsystem.utils.DatesHelper
+import com.example.parkingsystem.utils.ConfirmReservationDialogFragment
+import com.example.parkingsystem.utils.DatesHelper.getTodayDate
+import com.example.parkingsystem.utils.DatesHelper.getTomorrowDate
 import com.example.parkingsystem.utils.getSupportActionBar
 import com.example.parkingsystem.utils.viewBinding
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
@@ -42,7 +42,35 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         setHasOptionsMenu(true)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        adapter = ParkingSpacesAdapter(DatesHelper().getTodayDate(), DatesHelper().getTomorrowDate())
+
+        adapter = ParkingSpacesAdapter(getTodayDate(), getTomorrowDate(), object: AdapterClickListener {
+            override fun onClick(position: Int, viewId: Int) {
+                when(viewId) {
+                    R.id.today -> {
+                        val ps = adapter.getElementByPosition(position)
+                        val dialog = ConfirmReservationDialogFragment(getTodayDate(), ps, object : DialogClickListener {
+                            override fun onClick(viewId: Int, dialog: DialogFragment) {
+                                when(viewId) {
+                                    R.id.cancel -> {
+                                        dialog.dismiss()
+                                    }
+                                    R.id.confirm -> {
+                                        viewModel.makeReservation()
+                                        //block ui
+                                        dialog.dismiss()
+                                    }
+                                }
+                            }
+                        })
+                        val ft = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                        dialog.show(ft, TAG)
+                    }
+                    R.id.tomorrow -> {
+
+                    }
+                }
+            }
+        })
 
         viewModel.parkingSpaces.observe(viewLifecycleOwner) {
             binding.refresher.isRefreshing = it.isLoading
@@ -60,7 +88,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             }
 
             callSecurityGuard.setOnClickListener {
-                // Check whether a permission is needed to dial numbers
                 val intent = Intent(Intent.ACTION_DIAL)
                 intent.data = Uri.parse(requireContext().getString(R.string.securityPhoneNumber))
                 startActivity(intent)
