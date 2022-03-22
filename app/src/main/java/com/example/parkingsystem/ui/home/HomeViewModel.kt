@@ -37,8 +37,8 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
         })
     }
 
-    fun makeReservation() {
-        repository.makeReservation()
+    fun makeReservation(id: Long, date: String) {
+        repository.makeReservation(id, date)
     }
 
 }

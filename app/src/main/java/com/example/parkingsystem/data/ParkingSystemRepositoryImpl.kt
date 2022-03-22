@@ -34,7 +34,7 @@ class ParkingSystemRepositoryImpl(
         firebaseRemoteDataSource.loadParkingSpaces(callback)
     }
 
-    override fun makeReservation() {
-
+    override fun makeReservation(id: Long, date: String) {
+        firebaseRemoteDataSource.makeReservation(id, date)
     }
 }

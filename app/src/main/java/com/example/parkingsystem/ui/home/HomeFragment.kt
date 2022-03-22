@@ -4,12 +4,11 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -23,6 +22,9 @@ import com.example.parkingsystem.utils.DatesHelper.getTodayDate
 import com.example.parkingsystem.utils.DatesHelper.getTomorrowDate
 import com.example.parkingsystem.utils.getSupportActionBar
 import com.example.parkingsystem.utils.viewBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
@@ -35,38 +37,50 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Use extension func
-        //getSupportActionBar().hide()
         getSupportActionBar().show()
         getSupportActionBar().setDisplayHomeAsUpEnabled(false)
         setHasOptionsMenu(true)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
-        adapter = ParkingSpacesAdapter(getTodayDate(), getTomorrowDate(), object: AdapterClickListener {
+        adapter = ParkingSpacesAdapter(object: AdapterClickListener {
             override fun onClick(position: Int, viewId: Int) {
                 when(viewId) {
                     R.id.today -> {
-                        val ps = adapter.getElementByPosition(position)
-                        val dialog = ConfirmReservationDialogFragment(getTodayDate(), ps, object : DialogClickListener {
+                        val parkingSpace = adapter.getElementByPosition(position)
+                        val dialog = ConfirmReservationDialogFragment(getTodayDate(), parkingSpace, object : DialogClickListener {
                             override fun onClick(viewId: Int, dialog: DialogFragment) {
                                 when(viewId) {
                                     R.id.cancel -> {
                                         dialog.dismiss()
                                     }
                                     R.id.confirm -> {
-                                        viewModel.makeReservation()
+                                        viewModel.makeReservation(parkingSpace.id, getTodayDate())
                                         //block ui
                                         dialog.dismiss()
                                     }
                                 }
                             }
                         })
-                        val ft = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                        dialog.show(ft, TAG)
+                        dialog.show(parentFragmentManager, TAG)
                     }
                     R.id.tomorrow -> {
-
+                        val parkingSpace = adapter.getElementByPosition(position)
+                        val dialog = ConfirmReservationDialogFragment(getTomorrowDate(), parkingSpace, object : DialogClickListener {
+                            override fun onClick(viewId: Int, dialog: DialogFragment) {
+                                when(viewId) {
+                                    R.id.cancel -> {
+                                        dialog.dismiss()
+                                    }
+                                    R.id.confirm -> {
+                                        viewModel.makeReservation(parkingSpace.id, getTomorrowDate())
+                                        //block ui
+                                        dialog.dismiss()
+                                    }
+                                }
+                            }
+                        })
+                        dialog.show(parentFragmentManager, TAG)
                     }
                 }
             }

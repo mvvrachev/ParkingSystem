@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.parkingsystem.R
 import com.example.parkingsystem.base.AdapterClickListener
 import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.utils.DatesHelper.getTodayDate
+import com.example.parkingsystem.utils.DatesHelper.getTomorrowDate
 import com.google.android.material.chip.Chip
 
-class ParkingSpacesAdapter(private val todayDate: String,
-                           private val tomorrowDate: String,
-                           private val clickCallback: AdapterClickListener) : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
+class ParkingSpacesAdapter(private val clickCallback: AdapterClickListener) : RecyclerView.Adapter<ParkingSpacesAdapter.ParkingHolder>() {
 
     private val parkingSpaces : MutableList<ParkingSpace> = mutableListOf()
 
@@ -27,33 +27,14 @@ class ParkingSpacesAdapter(private val todayDate: String,
 
         holder.parkingSpaceNumber.text = context.getString(R.string.parkingSpace, parkingSpaces[position].floor, parkingSpaces[position].id)
 
-        holder.today.text = todayDate
+        holder.today.text = getTodayDate()
         holder.today.isEnabled = !parkingSpaces[position].isBookedToday
 
-        holder.tomorrow.text = tomorrowDate
+        holder.tomorrow.text = getTomorrowDate()
         holder.tomorrow.isEnabled = !parkingSpaces[position].isBookedTomorrow
 
         holder.today.setOnClickListener {
             clickCallback.onClick(holder.adapterPosition, R.id.today)
-
-//            val dialog = ConfirmReservationDialogFragment(todayDate, parkingSpaces[position].id, spaceNumber)
-//            val ft = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-//            dialog.show(ft, TAG)
-
-//            val auth = Firebase.auth.currentUser
-//            val db = Firebase.firestore.collection("user-profiles").document(auth?.uid.toString())
-//            val res = Firebase.firestore.collection("reservations")
-//            db.get().addOnSuccessListener { d ->
-//                if (d != null) {
-//                    Log.d(TAG, "DocumentSnapshot data: ${d.data}")
-//                    val u = d.toObject<UserInfo>()
-//                    val reservation = Reservation(u?.carNumber, todayDate, parkingSpaces[position].id, auth?.uid.toString())
-//                    res.add(reservation)
-//                } else {
-//                    Log.d(TAG, "No such document")
-//                }
-//            }
-
         }
 
         holder.tomorrow.setOnClickListener {
@@ -75,7 +56,6 @@ class ParkingSpacesAdapter(private val todayDate: String,
         return parkingSpaces[position]
     }
 
-    // TODO: How to do binding gist github
     class ParkingHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val parkingSpaceNumber: TextView = itemView.findViewById(R.id.parkingSpaceNumber)
         val today: Chip = itemView.findViewById(R.id.today)

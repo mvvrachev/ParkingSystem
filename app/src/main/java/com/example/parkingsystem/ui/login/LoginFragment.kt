@@ -35,7 +35,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             }
 
             if(!it.successLogin && !it.isLoading) {
-                Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+                showError(it.error)
             }
         }
 

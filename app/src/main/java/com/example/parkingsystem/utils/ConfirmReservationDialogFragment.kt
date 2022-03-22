@@ -22,33 +22,20 @@ class ConfirmReservationDialogFragment(private val date: String,
     ): View {
         val view: View = inflater.inflate(R.layout.confirm_reservation, container, false)
 
-        val sure: TextView = view.findViewById(R.id.are_you_sure)
-        sure.text = requireContext().getString(R.string.are_you_sure_you_want_to_reserve_for, date)
+        val areYouSure: TextView = view.findViewById(R.id.are_you_sure)
+        areYouSure.text = requireContext().getString(R.string.are_you_sure_you_want_to_reserve_for, date)
 
         val space: TextView = view.findViewById(R.id.space_id)
         space.text = requireContext().getString(R.string.parkingSpace, parkingSpace.floor, parkingSpace.id)
 
         val cancelBtn: Button = view.findViewById(R.id.cancel)
         val confirmBtn: Button = view.findViewById(R.id.confirm)
+
         cancelBtn.setOnClickListener {
             clickCallback.onClick(R.id.cancel, this)
         }
         confirmBtn.setOnClickListener {
             clickCallback.onClick(R.id.confirm, this)
-
-//            val auth = Firebase.auth.currentUser
-//            val db = Firebase.firestore.collection("user-profiles").document(auth?.uid.toString())
-//            val res = Firebase.firestore.collection("reservations")
-//            db.get().addOnSuccessListener { d ->
-//                if (d != null) {
-//                    Log.d(TAG, "DocumentSnapshot data: ${d.data}")
-//                    val u = d.toObject<UserInfo>()
-//                    val reservation = Reservation(u?.carNumber, date, id, auth?.uid.toString())
-//                    res.add(reservation)
-//                } else {
-//                    Log.d(TAG, "No such document")
-//                }
-//            }
             dismiss()
         }
 

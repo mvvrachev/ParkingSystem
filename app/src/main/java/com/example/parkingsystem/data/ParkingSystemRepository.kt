@@ -11,7 +11,7 @@ interface ParkingSystemRepository {
     fun doLogout(callback: RepositoryResult<Unit>)
 
     fun loadParkingSpaces(callback: RepositoryResult<List<ParkingSpace>>)
-    fun makeReservation()
+    fun makeReservation(id: Long, date: String)
 
 
 }

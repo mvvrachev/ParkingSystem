@@ -11,10 +11,12 @@ import com.google.firebase.ktx.Firebase
 import com.example.parkingsystem.base.Result
 import com.example.parkingsystem.models.ParkingSpace
 import com.example.parkingsystem.models.Reservation
+import com.example.parkingsystem.models.UserInfo
 import com.example.parkingsystem.utils.DatesHelper.getTodayDate
 import com.example.parkingsystem.utils.DatesHelper.getTomorrowDate
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.auth.User
 
 class FirebaseRemoteDataSource {
 
@@ -41,7 +43,7 @@ class FirebaseRemoteDataSource {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        addAdditionalUserInfo(username, carNumber, auth.currentUser!!)
+                        addAdditionalUserInfo(username, carNumber, requireNotNull(auth.currentUser))
                         repositoryResult.result(Result.Success(Unit))
                     } else {
                         repositoryResult.result(Result.Error(task.exception.toString()))
@@ -133,4 +135,18 @@ class FirebaseRemoteDataSource {
             }
     }
 
+    fun makeReservation(id: Long, date: String) {
+        val currUserUid = requireNotNull(auth.currentUser).uid
+        val userProfiles = db.collection("user-profiles").document(currUserUid)
+        val reservations = db.collection("reservations")
+        userProfiles.get().addOnSuccessListener { d ->
+            if (d != null) {
+                val user = d.toObject<UserInfo>()
+                val reservation = Reservation(requireNotNull(user).carNumber, date, id, currUserUid)
+                reservations.add(reservation)
+            } else {
+                Log.d(TAG, "No such document")
+            }
+        }
+    }
 }

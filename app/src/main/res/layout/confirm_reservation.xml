@@ -6,11 +6,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="280dp"
-        android:layout_height="200dp"
+        android:layout_width="300dp"
+        android:layout_height="230dp"
         android:backgroundTint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/confirm_reservation"
