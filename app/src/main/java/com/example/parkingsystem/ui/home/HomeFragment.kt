@@ -58,6 +58,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                                         viewModel.makeReservation(parkingSpace.id, getTodayDate())
                                         //block ui
                                         dialog.dismiss()
+                                        viewModel.loadParkingSpaces()
                                     }
                                 }
                             }
@@ -76,6 +77,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                                         viewModel.makeReservation(parkingSpace.id, getTomorrowDate())
                                         //block ui
                                         dialog.dismiss()
+                                        viewModel.loadParkingSpaces()
                                     }
                                 }
                             }
