@@ -58,7 +58,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                                         viewModel.makeReservation(parkingSpace.id, getTodayDate())
                                         //block ui
                                         dialog.dismiss()
-                                        viewModel.loadParkingSpaces()
                                     }
                                 }
                             }
@@ -77,7 +76,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                                         viewModel.makeReservation(parkingSpace.id, getTomorrowDate())
                                         //block ui
                                         dialog.dismiss()
-                                        viewModel.loadParkingSpaces()
                                     }
                                 }
                             }
@@ -92,6 +90,18 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             binding.refresher.isRefreshing = it.isLoading
             adapter.setData(it.data)
             showError(it.error)
+        }
+
+        viewModel.reservation.observe(viewLifecycleOwner) {
+            loaderVisible(it.isLoading)
+
+            if(it.successMakeReservation) {
+                viewModel.loadParkingSpaces()
+            }
+
+            if(!it.successMakeReservation && !it.isLoading) {
+                showError(it.error)
+            }
         }
 
 

@@ -3,7 +3,6 @@ package com.example.parkingsystem.data
 import com.example.parkingsystem.base.RepositoryResult
 import com.example.parkingsystem.data.datasources.FirebaseRemoteDataSource
 import com.example.parkingsystem.data.datasources.MockDataSource
-import com.example.parkingsystem.models.FirebaseParkingSpace
 import com.example.parkingsystem.models.ParkingSpace
 
 class ParkingSystemRepositoryImpl(
@@ -34,7 +33,7 @@ class ParkingSystemRepositoryImpl(
         firebaseRemoteDataSource.loadParkingSpaces(callback)
     }
 
-    override fun makeReservation(id: Long, date: String) {
-        firebaseRemoteDataSource.makeReservation(id, date)
+    override fun makeReservation(id: Long, date: String, callback: RepositoryResult<Unit>) {
+        firebaseRemoteDataSource.makeReservation(id, date, callback)
     }
 }

@@ -17,6 +17,9 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
     private val _parkingSpaces: MutableLiveData<HomeViewState> = MutableLiveData(HomeViewState())
     val parkingSpaces: LiveData<HomeViewState> = _parkingSpaces
 
+    private val _reservation: MutableLiveData<MakeReservationViewState> = MutableLiveData(MakeReservationViewState())
+    val reservation: LiveData<MakeReservationViewState> = _reservation
+
     init {
         loadParkingSpaces()
     }
@@ -38,7 +41,19 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
     }
 
     fun makeReservation(id: Long, date: String) {
-        repository.makeReservation(id, date)
+        _reservation.value = _reservation.value?.copy(isLoading = true, error = "")
+        repository.makeReservation(id, date, object : RepositoryResult<Unit> {
+            override fun result(result: Result<Unit>) {
+                when(result) {
+                    is Success -> {
+                        _reservation.value = _reservation.value?.copy(isLoading = false, successMakeReservation = true, error = "")
+                    }
+                    is Error -> {
+                        _reservation.value = _reservation.value?.copy(isLoading = false, error = result.error)
+                    }
+                }
+            }
+        })
     }
 
 }
@@ -48,3 +63,10 @@ data class HomeViewState(
     val isLoading: Boolean = false,
     val error: String = ""
 )
+
+data class MakeReservationViewState(
+    val successMakeReservation: Boolean = false,
+    val isLoading: Boolean = false,
+    val error: String = ""
+)
+

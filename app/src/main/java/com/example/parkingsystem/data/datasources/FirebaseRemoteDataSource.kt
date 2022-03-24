@@ -135,7 +135,7 @@ class FirebaseRemoteDataSource {
             }
     }
 
-    fun makeReservation(id: Long, date: String) {
+    fun makeReservation(id: Long, date: String, repositoryResult: RepositoryResult<Unit>) {
         val currUserUid = requireNotNull(auth.currentUser).uid
         val userProfiles = db.collection("user-profiles").document(currUserUid)
         val reservations = db.collection("reservations")
@@ -144,8 +144,9 @@ class FirebaseRemoteDataSource {
                 val user = d.toObject<UserInfo>()
                 val reservation = Reservation(requireNotNull(user).carNumber, date, id, currUserUid)
                 reservations.add(reservation)
+                repositoryResult.result(Result.Success(Unit))
             } else {
-                Log.d(TAG, "No such document")
+                repositoryResult.result(Result.Error("Error making reservation. Please try again!"))
             }
         }
     }
