@@ -4,6 +4,7 @@ import com.example.parkingsystem.base.RepositoryResult
 import com.example.parkingsystem.data.datasources.FirebaseRemoteDataSource
 import com.example.parkingsystem.data.datasources.MockDataSource
 import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.models.User
 
 class ParkingSystemRepositoryImpl(
     private val mockDataSource: MockDataSource = MockDataSource(),
@@ -35,5 +36,9 @@ class ParkingSystemRepositoryImpl(
 
     override fun makeReservation(id: Long, date: String, callback: RepositoryResult<Unit>) {
         firebaseRemoteDataSource.makeReservation(id, date, callback)
+    }
+
+    override fun fetchUserInfo(callback: RepositoryResult<User>) {
+        firebaseRemoteDataSource.fetchUserInfo(callback)
     }
 }

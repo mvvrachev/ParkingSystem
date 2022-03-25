@@ -1,27 +1,17 @@
 package com.example.parkingsystem.ui.userInfo
 
-import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.parkingsystem.R
 import com.example.parkingsystem.base.BaseFragment
-import com.example.parkingsystem.databinding.FragmentHomeBinding
 import com.example.parkingsystem.databinding.FragmentUserInfoBinding
-import com.example.parkingsystem.models.UserInfo
-import com.example.parkingsystem.ui.home.HomeViewModel
+import com.example.parkingsystem.models.User
+import com.example.parkingsystem.utils.DatesHelper.getTodayDate
 import com.example.parkingsystem.utils.viewBinding
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 
 class UserInfoFragment : BaseFragment(R.layout.fragment_user_info) {
 
@@ -32,8 +22,22 @@ class UserInfoFragment : BaseFragment(R.layout.fragment_user_info) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
+        viewModel.fetchUserInfo()
 
-        viewModel.viewState.observe(viewLifecycleOwner) {
+        viewModel.userInfoViewState.observe(viewLifecycleOwner) {
+            loaderVisible(it.isLoading)
+
+            with(binding) {
+                name.text = it.userData.username
+                email.text = it.userData.email
+                carNumberInfo.text = getString(R.string.your_car_number, it.userData.carNumber)
+                date.text = getString(R.string.today_is, getTodayDate())
+            }
+
+            showError(it.error)
+        }
+
+        viewModel.logoutViewState.observe(viewLifecycleOwner) {
             loaderVisible(it.isLoading)
 
             if(it.successLogout) {
@@ -41,25 +45,11 @@ class UserInfoFragment : BaseFragment(R.layout.fragment_user_info) {
             }
 
             if(!it.successLogout && !it.isLoading) {
-                Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+                showError(it.error)
             }
         }
 
-        var u: UserInfo
-        val auth = Firebase.auth.currentUser
-        val db = Firebase.firestore.collection("user-profiles").document(auth?.uid.toString())
-        db.get().addOnSuccessListener { documentSnapshot ->
-            Log.d(TAG, "Document data:${documentSnapshot.toObject<UserInfo>()}")
-            u = requireNotNull(documentSnapshot.toObject())
-        }
-
         with(binding) {
-            email.text = auth?.email
-//            carNumberInfo.text = user.carNumber
-//            name.text = user.username
-
-
-
             logout.setOnClickListener {
                 viewModel.doLogout()
             }

@@ -4,19 +4,15 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import android.util.Patterns
 import com.example.parkingsystem.base.RepositoryResult
-import com.example.parkingsystem.models.FirebaseParkingSpace
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.example.parkingsystem.base.Result
-import com.example.parkingsystem.models.ParkingSpace
-import com.example.parkingsystem.models.Reservation
-import com.example.parkingsystem.models.UserInfo
+import com.example.parkingsystem.models.*
 import com.example.parkingsystem.utils.DatesHelper.getTodayDate
 import com.example.parkingsystem.utils.DatesHelper.getTomorrowDate
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.auth.User
 
 class FirebaseRemoteDataSource {
 
@@ -149,5 +145,21 @@ class FirebaseRemoteDataSource {
                 repositoryResult.result(Result.Error("Error making reservation. Please try again!"))
             }
         }
+    }
+
+    fun fetchUserInfo(repositoryResult: RepositoryResult<User>) {
+        val currentUser = auth.currentUser
+        val db = Firebase.firestore.collection("user-profiles").document(requireNotNull(currentUser).uid.toString())
+        db.get()
+            .addOnSuccessListener { documentSnapshot ->
+//            Log.d(TAG, "Document data:${documentSnapshot.toObject<UserInfo>()}")
+                val u = documentSnapshot.toObject<UserInfo>()
+                val user = User(currentUser.email, requireNotNull(u).carNumber, u.username)
+                repositoryResult.result(Result.Success(user))
+        }
+            .addOnFailureListener {
+                repositoryResult.result(Result.Error("Could not load user data!"))
+            }
+
     }
 }

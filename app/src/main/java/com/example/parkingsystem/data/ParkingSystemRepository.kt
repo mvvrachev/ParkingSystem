@@ -1,8 +1,8 @@
 package com.example.parkingsystem.data
 
 import com.example.parkingsystem.base.RepositoryResult
-import com.example.parkingsystem.models.FirebaseParkingSpace
 import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.models.User
 
 interface ParkingSystemRepository {
 
@@ -12,6 +12,7 @@ interface ParkingSystemRepository {
 
     fun loadParkingSpaces(callback: RepositoryResult<List<ParkingSpace>>)
     fun makeReservation(id: Long, date: String, callback: RepositoryResult<Unit>)
+    fun fetchUserInfo(callback: RepositoryResult<User>)
 
 
 }
