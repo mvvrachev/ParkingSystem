@@ -9,6 +9,7 @@ import com.example.parkingsystem.base.Result
 import com.example.parkingsystem.models.*
 import com.example.parkingsystem.utils.DatesHelper.getTodayDate
 import com.example.parkingsystem.utils.DatesHelper.getTomorrowDate
+import com.example.parkingsystem.utils.EmailSender
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 
@@ -137,11 +138,17 @@ class FirebaseRemoteDataSource {
                 val user = d.toObject<UserInfo>()
                 val reservation = Reservation(requireNotNull(user).carNumber, date, id, floor, currUserUid)
                 reservations.add(reservation)
+
+                if(date == getTodayDate()) {
+                    EmailSender.sendEmail()
+                }
+
                 repositoryResult.result(Result.Success(Unit))
             } else {
                 repositoryResult.result(Result.Error("Error making reservation. Please try again!"))
             }
         }
+
     }
 
     fun fetchUserInfo(repositoryResult: RepositoryResult<User>) {
