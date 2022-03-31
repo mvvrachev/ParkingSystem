@@ -1,7 +1,5 @@
 package com.example.parkingsystem.data.datasources
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.util.Patterns
 import com.example.parkingsystem.base.RepositoryResult
 import com.google.firebase.firestore.ktx.firestore
@@ -42,7 +40,7 @@ class FirebaseRemoteDataSource {
                         addAdditionalUserInfo(username, carNumber, requireNotNull(auth.currentUser))
                         repositoryResult.result(Result.Success(Unit))
                     } else {
-                        repositoryResult.result(Result.Error(task.exception.toString()))
+                        repositoryResult.result(Result.Error(task.exception.toString().split(" ", limit = 2)[1]))
                     }
                 }
         }
@@ -62,7 +60,7 @@ class FirebaseRemoteDataSource {
                     if (task.isSuccessful) {
                         repositoryResult.result(Result.Success(Unit))
                     } else {
-                        repositoryResult.result(Result.Error(task.exception.toString()))
+                        repositoryResult.result(Result.Error(task.exception.toString().split(" ", limit = 2)[1]))
                     }
                 }
         }
@@ -111,7 +109,6 @@ class FirebaseRemoteDataSource {
                                     when (reservation.date) {
                                         getTodayDate() -> {
                                             ps.isBookedToday = true
-
                                         }
                                         getTomorrowDate() -> {
                                             ps.isBookedTomorrow = true
@@ -131,14 +128,14 @@ class FirebaseRemoteDataSource {
             }
     }
 
-    fun makeReservation(id: Long, date: String, repositoryResult: RepositoryResult<Unit>) {
+    fun makeReservation(id: Long, floor: Long, date: String, repositoryResult: RepositoryResult<Unit>) {
         val currUserUid = requireNotNull(auth.currentUser).uid
         val userProfiles = db.collection("user-profiles").document(currUserUid)
         val reservations = db.collection("reservations")
         userProfiles.get().addOnSuccessListener { d ->
             if (d != null) {
                 val user = d.toObject<UserInfo>()
-                val reservation = Reservation(requireNotNull(user).carNumber, date, id, currUserUid)
+                val reservation = Reservation(requireNotNull(user).carNumber, date, id, floor, currUserUid)
                 reservations.add(reservation)
                 repositoryResult.result(Result.Success(Unit))
             } else {
@@ -152,7 +149,6 @@ class FirebaseRemoteDataSource {
         val db = Firebase.firestore.collection("user-profiles").document(requireNotNull(currentUser).uid.toString())
         db.get()
             .addOnSuccessListener { documentSnapshot ->
-//            Log.d(TAG, "Document data:${documentSnapshot.toObject<UserInfo>()}")
                 val u = documentSnapshot.toObject<UserInfo>()
                 val user = User(currentUser.email, requireNotNull(u).carNumber, u.username)
                 repositoryResult.result(Result.Success(user))
@@ -160,6 +156,46 @@ class FirebaseRemoteDataSource {
             .addOnFailureListener {
                 repositoryResult.result(Result.Error("Could not load user data!"))
             }
-
     }
+
+    fun loadUserReservations(repositoryResult: RepositoryResult<List<Reservation>>) {
+        val userReservations: MutableList<Reservation> = mutableListOf()
+        val currentUserUid = requireNotNull(auth.currentUser).uid
+        db.collection("reservations").whereEqualTo("user_id", currentUserUid)
+            .whereIn("date", listOf(getTodayDate(), getTomorrowDate()))
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    userReservations.add(document.toObject())
+                }
+                repositoryResult.result(Result.Success(userReservations))
+            }
+            .addOnFailureListener {
+                repositoryResult.result(Result.Error("Could not load your reservations."))
+            }
+    }
+
+    fun cancelReservation(reservation: Reservation, repositoryResult: RepositoryResult<Unit>) {
+        db.collection("reservations").whereEqualTo("date", reservation.date)
+            .whereEqualTo("carNumber", reservation.carNumber)
+            .whereEqualTo("floor", reservation.floor)
+            .whereEqualTo("space", reservation.space)
+            .whereEqualTo("user_id", reservation.user_id)
+            .get()
+            .addOnSuccessListener { documents ->
+                for(d in documents) {
+                    db.collection("reservations").document(d.id).delete()
+                        .addOnSuccessListener {
+                            repositoryResult.result(Result.Success(Unit))
+                        }
+                        .addOnFailureListener {
+                            repositoryResult.result(Result.Error("Could not cancel the reservation. Please try again!"))
+                        }
+                }
+            }
+            .addOnFailureListener {
+                repositoryResult.result(Result.Error("Could not cancel the reservation. Please try again!"))
+            }
+    }
+
 }

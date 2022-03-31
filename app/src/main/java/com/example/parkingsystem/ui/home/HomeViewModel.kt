@@ -11,6 +11,7 @@ import com.example.parkingsystem.data.ParkingSystemRepository
 import com.example.parkingsystem.data.ParkingSystemRepositoryImpl
 import com.example.parkingsystem.models.FirebaseParkingSpace
 import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.models.Reservation
 
 class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSystemRepositoryImpl()) : ViewModel() {
 
@@ -40,9 +41,9 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
         })
     }
 
-    fun makeReservation(id: Long, date: String) {
+    fun makeReservation(id: Long, floor: Long, date: String) {
         _reservation.value = _reservation.value?.copy(isLoading = true, error = "")
-        repository.makeReservation(id, date, object : RepositoryResult<Unit> {
+        repository.makeReservation(id, floor, date, object : RepositoryResult<Unit> {
             override fun result(result: Result<Unit>) {
                 when(result) {
                     is Success -> {

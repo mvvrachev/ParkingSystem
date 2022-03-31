@@ -55,8 +55,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                                         dialog.dismiss()
                                     }
                                     R.id.confirm -> {
-                                        viewModel.makeReservation(parkingSpace.id, getTodayDate())
-                                        //block ui
+                                        viewModel.makeReservation(parkingSpace.id, parkingSpace.floor, getTodayDate())
                                         dialog.dismiss()
                                     }
                                 }
@@ -73,8 +72,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                                         dialog.dismiss()
                                     }
                                     R.id.confirm -> {
-                                        viewModel.makeReservation(parkingSpace.id, getTomorrowDate())
-                                        //block ui
+                                        viewModel.makeReservation(parkingSpace.id, parkingSpace.floor, getTomorrowDate())
                                         dialog.dismiss()
                                     }
                                 }

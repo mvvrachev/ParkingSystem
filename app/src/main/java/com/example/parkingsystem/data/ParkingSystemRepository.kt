@@ -2,6 +2,7 @@ package com.example.parkingsystem.data
 
 import com.example.parkingsystem.base.RepositoryResult
 import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.models.Reservation
 import com.example.parkingsystem.models.User
 
 interface ParkingSystemRepository {
@@ -11,8 +12,10 @@ interface ParkingSystemRepository {
     fun doLogout(callback: RepositoryResult<Unit>)
 
     fun loadParkingSpaces(callback: RepositoryResult<List<ParkingSpace>>)
-    fun makeReservation(id: Long, date: String, callback: RepositoryResult<Unit>)
+    fun makeReservation(id: Long, floor: Long, date: String, callback: RepositoryResult<Unit>)
     fun fetchUserInfo(callback: RepositoryResult<User>)
+    fun loadUserReservations(callback: RepositoryResult<List<Reservation>>)
+    fun cancelReservation(reservation: Reservation, callback: RepositoryResult<Unit>)
 
 
 }

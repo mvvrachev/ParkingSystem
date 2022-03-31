@@ -2,12 +2,11 @@ package com.example.parkingsystem.data
 
 import com.example.parkingsystem.base.RepositoryResult
 import com.example.parkingsystem.data.datasources.FirebaseRemoteDataSource
-import com.example.parkingsystem.data.datasources.MockDataSource
 import com.example.parkingsystem.models.ParkingSpace
+import com.example.parkingsystem.models.Reservation
 import com.example.parkingsystem.models.User
 
 class ParkingSystemRepositoryImpl(
-    private val mockDataSource: MockDataSource = MockDataSource(),
     private val firebaseRemoteDataSource: FirebaseRemoteDataSource = FirebaseRemoteDataSource()
 ) : ParkingSystemRepository {
 
@@ -34,11 +33,19 @@ class ParkingSystemRepositoryImpl(
         firebaseRemoteDataSource.loadParkingSpaces(callback)
     }
 
-    override fun makeReservation(id: Long, date: String, callback: RepositoryResult<Unit>) {
-        firebaseRemoteDataSource.makeReservation(id, date, callback)
+    override fun makeReservation(id: Long, floor: Long, date: String, callback: RepositoryResult<Unit>) {
+        firebaseRemoteDataSource.makeReservation(id, floor, date, callback)
     }
 
     override fun fetchUserInfo(callback: RepositoryResult<User>) {
         firebaseRemoteDataSource.fetchUserInfo(callback)
+    }
+
+    override fun loadUserReservations(callback: RepositoryResult<List<Reservation>>) {
+        firebaseRemoteDataSource.loadUserReservations(callback)
+    }
+
+    override fun cancelReservation(reservation: Reservation, callback: RepositoryResult<Unit>) {
+        firebaseRemoteDataSource.cancelReservation(reservation, callback)
     }
 }
