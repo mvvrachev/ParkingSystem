@@ -140,7 +140,9 @@ class FirebaseRemoteDataSource {
                 reservations.add(reservation)
 
                 if(date == getTodayDate()) {
-                    EmailSender.sendEmail()
+                    val es = EmailSender()
+                    es.execute()
+
                 }
 
                 repositoryResult.result(Result.Success(Unit))
@@ -204,5 +206,4 @@ class FirebaseRemoteDataSource {
                 repositoryResult.result(Result.Error("Could not cancel the reservation. Please try again!"))
             }
     }
-
 }

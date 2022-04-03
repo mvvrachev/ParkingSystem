@@ -7,7 +7,12 @@ import com.example.parkingsystem.models.User
 
 interface ParkingSystemRepository {
 
-    fun doRegister(username: String, email: String, carNumber: String, password: String,confirmPassword: String, callback: RepositoryResult<Unit>)
+    fun doRegister(username: String,
+                   email: String,
+                   carNumber: String,
+                   password: String,
+                   confirmPassword: String,
+                   callback: RepositoryResult<Unit>)
     fun doLogin(email: String, password: String, callback: RepositoryResult<Unit>)
     fun doLogout(callback: RepositoryResult<Unit>)
 

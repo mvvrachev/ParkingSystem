@@ -11,7 +11,6 @@ import com.example.parkingsystem.data.ParkingSystemRepository
 import com.example.parkingsystem.data.ParkingSystemRepositoryImpl
 import com.example.parkingsystem.models.Reservation
 import com.example.parkingsystem.models.User
-import com.example.parkingsystem.models.UserInfo
 
 class UserInfoViewModel(private val repository: ParkingSystemRepository = ParkingSystemRepositoryImpl()) : ViewModel() {
 
