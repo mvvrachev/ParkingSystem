@@ -18,7 +18,6 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     private lateinit var viewModel: RegisterViewModel
 
-    // TODO add back button go return to login screen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -142,7 +142,6 @@ class FirebaseRemoteDataSource {
                 if(date == getTodayDate()) {
                     val es = EmailSender()
                     es.execute()
-
                 }
 
                 repositoryResult.result(Result.Success(Unit))
@@ -195,6 +194,12 @@ class FirebaseRemoteDataSource {
                 for(d in documents) {
                     db.collection("reservations").document(d.id).delete()
                         .addOnSuccessListener {
+
+                            if(reservation.date == getTodayDate()) {
+                                val es = EmailSender()
+                                es.execute()
+                            }
+
                             repositoryResult.result(Result.Success(Unit))
                         }
                         .addOnFailureListener {
