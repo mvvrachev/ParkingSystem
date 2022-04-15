@@ -8,6 +8,8 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.parkingsystem.AuthenticationActivity
+import com.example.parkingsystem.MainActivity
 import com.example.parkingsystem.R
 import com.example.parkingsystem.base.AdapterClickListener
 import com.example.parkingsystem.base.BaseFragment
@@ -78,7 +80,9 @@ class UserInfoFragment : BaseFragment(R.layout.fragment_user_info) {
             loaderVisible(it.isLoading)
 
             if(it.successLogout) {
-                findNavController().navigate(R.id.action_userInfoFragment_to_loginFragment)
+                val intent = Intent(requireContext(), AuthenticationActivity::class.java)
+                startActivity(intent)
+                requireNotNull(activity).finish();
             }
 
             if(!it.successLogout && !it.isLoading) {
