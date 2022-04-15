@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -37,7 +38,7 @@ public class EmailSender extends AsyncTask{
     @Override
     protected Void doInBackground(Object[] objects) {
 
-        StringBuilder reservations = new StringBuilder();
+        StringBuilder reservations = new StringBuilder("Reservations for today: \n\n\n");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("reservations").whereEqualTo("date", DatesHelper.INSTANCE.getTodayDate())
                 .get()
@@ -47,7 +48,11 @@ public class EmailSender extends AsyncTask{
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Log.d(TAG, document.getId() + " => " + document.getData());
-                                reservations.append(document.getData()).append("\n");
+
+                                reservations.append("Space: ").append(document.getData().get("space")).append("\n")
+                                        .append("Floor: ").append(document.getData().get("floor")).append("\n")
+                                        .append("Car Number: ").append(document.getData().get("carNumber")).append("\n")
+                                        .append("\n");
                             }
                         } else {
                             Log.d("tag", "Error getting documents: ", task.getException());
