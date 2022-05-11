@@ -21,10 +21,10 @@ class ConfirmCancelReservationDialog(private val clickCallback: DialogClickListe
         val confirmButton: Button = view.findViewById(R.id.confirmDialog)
 
         cancelButton.setOnClickListener {
-            clickCallback.onClick(R.id.dismissDialog, this)
+            clickCallback.onClick(R.id.dismissDialog, dialog = this)
         }
         confirmButton.setOnClickListener {
-            clickCallback.onClick(R.id.confirmDialog, this)
+            clickCallback.onClick(R.id.confirmDialog, dialog = this)
             dismiss()
         }
 

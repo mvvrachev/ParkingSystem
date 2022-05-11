@@ -21,8 +21,12 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
     private val _reservation: MutableLiveData<MakeReservationViewState> = MutableLiveData(MakeReservationViewState())
     val reservation: LiveData<MakeReservationViewState> = _reservation
 
+    private val _carNumber: MutableLiveData<GetUserCarNumber> = MutableLiveData(GetUserCarNumber())
+    val carNumber: LiveData<GetUserCarNumber> = _carNumber
+
     init {
         loadParkingSpaces()
+        fetchUserCarNumber()
     }
 
     fun loadParkingSpaces() {
@@ -41,9 +45,9 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
         })
     }
 
-    fun makeReservation(id: Long, floor: Long, date: String) {
+    fun makeReservation(id: Long, floor: Long, date: String, carNumber: String) {
         _reservation.value = _reservation.value?.copy(isLoading = true, error = "")
-        repository.makeReservation(id, floor, date, object : RepositoryResult<Unit> {
+        repository.makeReservation(id, floor, date, carNumber, object : RepositoryResult<Unit> {
             override fun result(result: Result<Unit>) {
                 when(result) {
                     is Success -> {
@@ -51,6 +55,22 @@ class HomeViewModel(private val repository: ParkingSystemRepository = ParkingSys
                     }
                     is Error -> {
                         _reservation.value = _reservation.value?.copy(isLoading = false, error = result.error)
+                    }
+                }
+            }
+        })
+    }
+
+    fun fetchUserCarNumber() {
+        _carNumber.value = _carNumber.value?.copy(isLoading = true, error = "")
+        repository.fetchUserCarNumber(object : RepositoryResult<String> {
+            override fun result(result: Result<String>) {
+                when(result) {
+                    is Success -> {
+                        _carNumber.value = _carNumber.value?.copy(isLoading = false, carNumber = result.data, error = "")
+                    }
+                    is Error -> {
+                        _carNumber.value = _carNumber.value?.copy(isLoading = false, error = result.error)
                     }
                 }
             }
@@ -67,6 +87,12 @@ data class HomeViewState(
 
 data class MakeReservationViewState(
     val successMakeReservation: Boolean = false,
+    val isLoading: Boolean = false,
+    val error: String = ""
+)
+
+data class GetUserCarNumber(
+    val carNumber: String = "",
     val isLoading: Boolean = false,
     val error: String = ""
 )

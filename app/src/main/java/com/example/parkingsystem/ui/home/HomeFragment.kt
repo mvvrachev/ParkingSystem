@@ -32,7 +32,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var adapter: ParkingSpacesAdapter
-
+    private lateinit var userCarNumber: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,14 +48,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 when(viewId) {
                     R.id.today -> {
                         val parkingSpace = adapter.getElementByPosition(position)
-                        val dialog = ConfirmReservationDialogFragment(getTodayDate(), parkingSpace, object : DialogClickListener {
-                            override fun onClick(viewId: Int, dialog: DialogFragment) {
+                        val dialog = ConfirmReservationDialogFragment(getTodayDate(), parkingSpace, userCarNumber, object : DialogClickListener {
+                            override fun onClick(viewId: Int, carNumber: String, dialog: DialogFragment) {
                                 when(viewId) {
                                     R.id.cancel -> {
                                         dialog.dismiss()
                                     }
                                     R.id.confirm -> {
-                                        viewModel.makeReservation(parkingSpace.id, parkingSpace.floor, getTodayDate())
+                                        viewModel.makeReservation(parkingSpace.id, parkingSpace.floor, getTodayDate(), carNumber)
                                         dialog.dismiss()
                                     }
                                 }
@@ -65,14 +65,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     }
                     R.id.tomorrow -> {
                         val parkingSpace = adapter.getElementByPosition(position)
-                        val dialog = ConfirmReservationDialogFragment(getTomorrowDate(), parkingSpace, object : DialogClickListener {
-                            override fun onClick(viewId: Int, dialog: DialogFragment) {
+                        val dialog = ConfirmReservationDialogFragment(getTomorrowDate(), parkingSpace, userCarNumber, object : DialogClickListener {
+                            override fun onClick(viewId: Int, carNumber: String, dialog: DialogFragment) {
                                 when(viewId) {
                                     R.id.cancel -> {
                                         dialog.dismiss()
                                     }
                                     R.id.confirm -> {
-                                        viewModel.makeReservation(parkingSpace.id, parkingSpace.floor, getTomorrowDate())
+                                        viewModel.makeReservation(parkingSpace.id, parkingSpace.floor, getTomorrowDate(), carNumber)
                                         dialog.dismiss()
                                     }
                                 }
@@ -102,6 +102,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             }
         }
 
+        viewModel.carNumber.observe(viewLifecycleOwner) {
+            loaderVisible(it.isLoading)
+            userCarNumber = it.carNumber
+            showError(it.error)
+        }
 
         with(binding) {
             // if RV blinks disable animation

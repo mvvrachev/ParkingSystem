@@ -1,5 +1,6 @@
 package com.example.parkingsystem.data.datasources
 
+import android.util.Log
 import android.util.Patterns
 import com.example.parkingsystem.base.RepositoryResult
 import com.google.firebase.firestore.ktx.firestore
@@ -129,27 +130,39 @@ class FirebaseRemoteDataSource {
             }
     }
 
-    fun makeReservation(id: Long, floor: Long, date: String, repositoryResult: RepositoryResult<Unit>) {
-        val currUserUid = requireNotNull(auth.currentUser).uid
-        val userProfiles = db.collection("user-profiles").document(currUserUid)
+    fun makeReservation(id: Long, floor: Long, date: String, carNumber: String, repositoryResult: RepositoryResult<Unit>) {
         val reservations = db.collection("reservations")
-        userProfiles.get().addOnSuccessListener { d ->
-            if (d != null) {
-                val user = d.toObject<UserInfo>()
-                val reservation = Reservation(requireNotNull(user).carNumber, date, id, floor, currUserUid)
-                reservations.add(reservation)
-
+        val reservation = Reservation(carNumber, date, id, floor, requireNotNull(auth.currentUser).uid)
+        reservations.add(reservation)
+            .addOnSuccessListener {
+                repositoryResult.result(Result.Success(Unit))
                 if(date == getTodayDate()) {
                     val es = EmailSender()
                     es.execute()
                 }
-
-                repositoryResult.result(Result.Success(Unit))
-            } else {
+            }
+            .addOnFailureListener { e ->
                 repositoryResult.result(Result.Error("Error making reservation. Please try again!"))
             }
-        }
 
+    }
+
+    fun fetchUserCarNumber(repositoryResult: RepositoryResult<String>) {
+        val currentUser = auth.currentUser
+        db.collection("user-profiles").document(requireNotNull(currentUser).uid).get()
+            .addOnSuccessListener { documentSnapshot ->
+                val u = documentSnapshot.toObject<UserInfo>()
+                val carNumber = requireNotNull(u).carNumber
+                if(carNumber == null) {
+                    repositoryResult.result(Result.Error("Unexpected error occurred! Try again!"))
+                }
+                else {
+                    repositoryResult.result(Result.Success(carNumber))
+                }
+            }
+            .addOnFailureListener {
+                repositoryResult.result(Result.Error("Unexpected error occurred! Try again!"))
+            }
     }
 
     fun fetchUserInfo(repositoryResult: RepositoryResult<User>) {

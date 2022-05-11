@@ -4,5 +4,5 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.DialogFragment
 
 interface DialogClickListener {
-    fun onClick(@IdRes viewId: Int, dialog: DialogFragment)
+    fun onClick(@IdRes viewId: Int, carNumber: String = "", dialog: DialogFragment)
 }
