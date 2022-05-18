@@ -35,7 +35,7 @@ class UserInfoFragment : BaseFragment(R.layout.fragment_user_info) {
             override fun onClick(position: Int, viewId: Int) {
                 val reservation = adapter.getElementByPosition(position)
                 val dialog = ConfirmCancelReservationDialog(object : DialogClickListener {
-                    override fun onClick(viewId: Int, dialog: DialogFragment) {
+                    override fun onClick(viewId: Int, carNumber: String, dialog: DialogFragment) {
                         when(viewId) {
                             R.id.dismissDialog -> {
                                 dialog.dismiss()

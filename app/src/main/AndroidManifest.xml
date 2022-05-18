@@ -13,7 +13,7 @@
             android:name=".AuthenticationActivity"
             android:exported="true" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/LaunchTheme">
             <intent-filter>

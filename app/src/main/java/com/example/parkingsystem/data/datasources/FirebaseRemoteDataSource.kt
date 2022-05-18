@@ -1,5 +1,6 @@
 package com.example.parkingsystem.data.datasources
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import android.util.Patterns
 import com.example.parkingsystem.base.RepositoryResult
@@ -13,6 +14,7 @@ import com.example.parkingsystem.utils.DatesHelper.getTomorrowDate
 import com.example.parkingsystem.utils.EmailSender
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import java.lang.StringBuilder
 
 class FirebaseRemoteDataSource {
 
@@ -137,8 +139,9 @@ class FirebaseRemoteDataSource {
             .addOnSuccessListener {
                 repositoryResult.result(Result.Success(Unit))
                 if(date == getTodayDate()) {
-                    val es = EmailSender()
-                    es.execute()
+//                    val es = EmailSender()
+//                    es.execute()
+                    sendEmail()
                 }
             }
             .addOnFailureListener { e ->
@@ -209,8 +212,9 @@ class FirebaseRemoteDataSource {
                         .addOnSuccessListener {
 
                             if(reservation.date == getTodayDate()) {
-                                val es = EmailSender()
-                                es.execute()
+//                                val es = EmailSender()
+//                                es.execute()
+                                sendEmail()
                             }
 
                             repositoryResult.result(Result.Success(Unit))
@@ -222,6 +226,25 @@ class FirebaseRemoteDataSource {
             }
             .addOnFailureListener {
                 repositoryResult.result(Result.Error("Could not cancel the reservation. Please try again!"))
+            }
+    }
+
+    private fun sendEmail() {
+        db.collection("reservations").whereEqualTo("date", getTodayDate())
+            .get()
+            .addOnSuccessListener { documents ->
+                var reservations = StringBuilder("Reservations for today: \n\n")
+                for (document in documents) {
+                    reservations.append("Space: ").append(document.data["space"]).append("\n")
+                            .append("Floor: ").append(document.data["floor"]).append("\n")
+                            .append("Car Number: ").append(document.data["carNumber"]).append("\n")
+                            .append("\n");
+                }
+                val emailSender = EmailSender(reservations)
+                emailSender.execute()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting reservations: ", exception)
             }
     }
 }

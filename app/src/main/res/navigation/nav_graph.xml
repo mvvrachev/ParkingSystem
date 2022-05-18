@@ -17,6 +17,6 @@
     <fragment
         android:id="@+id/userInfoFragment"
         android:name="com.example.parkingsystem.ui.userInfo.UserInfoFragment"
-        android:label="fragment_user_info"
+        android:label="User information"
         tools:layout="@layout/fragment_user_info" />
 </navigation>
