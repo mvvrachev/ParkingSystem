@@ -1,11 +1,8 @@
 package com.example.parkingsystem
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 

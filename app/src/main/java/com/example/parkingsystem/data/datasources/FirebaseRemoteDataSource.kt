@@ -139,8 +139,6 @@ class FirebaseRemoteDataSource {
             .addOnSuccessListener {
                 repositoryResult.result(Result.Success(Unit))
                 if(date == getTodayDate()) {
-//                    val es = EmailSender()
-//                    es.execute()
                     sendEmail()
                 }
             }
@@ -212,8 +210,6 @@ class FirebaseRemoteDataSource {
                         .addOnSuccessListener {
 
                             if(reservation.date == getTodayDate()) {
-//                                val es = EmailSender()
-//                                es.execute()
                                 sendEmail()
                             }
 

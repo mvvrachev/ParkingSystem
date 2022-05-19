@@ -49,8 +49,7 @@
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         android:textColor="@color/black"
-        android:drawablePadding="4dp"
-        app:drawableEndCompat="@drawable/ic_baseline_edit_24" />
+        android:drawablePadding="4dp" />
 
     <TextView
         android:id="@+id/date"

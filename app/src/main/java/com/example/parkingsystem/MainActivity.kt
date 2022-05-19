@@ -9,13 +9,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.parkingsystem.databinding.ActivityMainBinding
 
-// TODO: create authentication activity - done
-// TODO: add Navigation Library in order to navigate between fragments - done
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
-    // Delegate property activity binding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

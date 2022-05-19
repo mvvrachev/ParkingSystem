@@ -1,21 +1,6 @@
 package com.example.parkingsystem.utils;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.List;
-import java.util.Objects;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -37,27 +22,6 @@ public class EmailSender extends AsyncTask{
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-//        StringBuilder reserves = new StringBuilder("Reservations for today: \n\n\n");
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("reservations").whereEqualTo("date", DatesHelper.INSTANCE.getTodayDate())
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//
-//                                reserves.append("Space: ").append(document.getData().get("space")).append("\n")
-//                                        .append("Floor: ").append(document.getData().get("floor")).append("\n")
-//                                        .append("Car Number: ").append(document.getData().get("carNumber")).append("\n")
-//                                        .append("\n");
-//                            }
-//                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
     }
 
     @Override
@@ -67,10 +31,6 @@ public class EmailSender extends AsyncTask{
 
     @Override
     protected Void doInBackground(Object[] objects) {
-
-        Log.d("tag", "doInBacgkoerund() called!");
-        Log.d("tag", "Reservation: value: " + reservations);
-
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
@@ -95,25 +55,4 @@ public class EmailSender extends AsyncTask{
         }
         return null;
     }
-
-//    private void setReservations() {
-//        Log.d("tag", "SetReservations() called");
-//        this.reservations = new StringBuilder("Reservations for today: \n\n\n");
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("reservations").whereEqualTo("date", DatesHelper.INSTANCE.getTodayDate())
-//                .get()
-//                .addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-//                            Log.d("tag", "Docutmenrt data" + document.getData().toString());
-//                            reservations.append("Space: ").append(document.getData().get("space")).append("\n")
-//                                    .append("Floor: ").append(document.getData().get("floor")).append("\n")
-//                                    .append("Car Number: ").append(document.getData().get("carNumber")).append("\n")
-//                                    .append("\n");
-//                        }
-//                    } else {
-//                        Log.d(TAG, "Error getting documents: ", task.getException());
-//                    }
-//                });
-//    }
 }

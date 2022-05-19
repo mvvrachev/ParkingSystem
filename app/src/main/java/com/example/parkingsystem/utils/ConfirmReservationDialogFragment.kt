@@ -37,7 +37,6 @@ class ConfirmReservationDialogFragment(private val date: String,
         val confirmBtn: Button = view.findViewById(R.id.confirm)
 
         cancelBtn.setOnClickListener {
-            //TODO: Empty field validation
             clickCallback.onClick(R.id.cancel, carNumberField.text.toString(), this)
         }
         confirmBtn.setOnClickListener {
